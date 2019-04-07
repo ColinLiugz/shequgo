@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/shequgo.iml" filepath="$PROJECT_DIR$/shequgo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-common/shequgo-common.iml" filepath="$PROJECT_DIR$/shequgo-common/shequgo-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-facade-commodity/shequgo-facade-commodity.iml" filepath="$PROJECT_DIR$/shequgo-facade-commodity/shequgo-facade-commodity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-facade-user/shequgo-facade-user.iml" filepath="$PROJECT_DIR$/shequgo-facade-user/shequgo-facade-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-queue/shequgo-queue.iml" filepath="$PROJECT_DIR$/shequgo-queue/shequgo-queue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-service-commodity/shequgo-service-commodity.iml" filepath="$PROJECT_DIR$/shequgo-service-commodity/shequgo-service-commodity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-service-user/shequgo-service-user.iml" filepath="$PROJECT_DIR$/shequgo-service-user/shequgo-service-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-web/shequgo-web.iml" filepath="$PROJECT_DIR$/shequgo-web/shequgo-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shequgo-weixin/shequgo-weixin.iml" filepath="$PROJECT_DIR$/shequgo-weixin/shequgo-weixin.iml" />
+    </modules>
+  </component>
+</project>

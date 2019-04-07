@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="shequgo-common" />
+        <module name="shequgo-facade-commodity" />
+        <module name="shequgo-facade-user" />
+        <module name="shequgo-queue" />
+        <module name="shequgo-service-commodity" />
+        <module name="shequgo-service-user" />
+        <module name="shequgo-user-facade" />
+        <module name="shequgo-web" />
+        <module name="shequgo-weixin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo-facade" target="1.5" />
+      <module name="demo-service" target="1.8" />
+      <module name="shequgo" target="1.5" />
+      <module name="shequgo-common" target="1.8" />
+      <module name="shequgo-facade-commodity" target="1.5" />
+      <module name="shequgo-facade-user" target="1.5" />
+      <module name="shequgo-queue" target="1.8" />
+      <module name="shequgo-service-commodity" target="1.8" />
+      <module name="shequgo-service-user" target="1.8" />
+      <module name="shequgo-user-facade" target="1.5" />
+      <module name="shequgo-web" target="1.8" />
+      <module name="shequgo-weixin" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
