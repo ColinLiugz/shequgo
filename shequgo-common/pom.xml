@@ -27,11 +27,11 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>log4j</groupId>-->
-            <!--<artifactId>log4j</artifactId>-->
-            <!--<version>1.2.14</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
         <!--消息队列的依赖包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
