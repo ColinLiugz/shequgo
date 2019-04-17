@@ -29,7 +29,7 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private RedisService redisService;
-    @Reference(version = "1.0.0")
+    @Reference(version = "1.0.0",check = false)
     private AdminFacade adminFacade;
 
     @ApiOperation(value = "用户登录")
