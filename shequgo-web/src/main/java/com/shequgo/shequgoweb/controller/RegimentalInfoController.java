@@ -18,7 +18,7 @@ import utils.ApiResult;
  * @Author: Colin
  * @Date: 2019/3/30 23:27
  */
-@Api(value = "RegimentalInfoController",description = "订单管理相关接口")
+@Api(value = "RegimentalInfoController",description = "团长管理相关接口")
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/web")

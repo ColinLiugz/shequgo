@@ -2,6 +2,7 @@ package com.shequgo.shequgoweb.filter;
 
 import base.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.RedisService;
@@ -33,6 +34,11 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
+
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(200);
+            return;
+        }
 
         String uri = request.getRequestURI();
         if(!"/login".equals(uri)){
