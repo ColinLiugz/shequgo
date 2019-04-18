@@ -29,8 +29,8 @@ public class SkuController {
     @RequestMapping(value = "/sku/add", method = RequestMethod.POST)
     public ApiResult addSku(Integer categoryId, String skuName, String des, String subtitle, String thumbnail,
                             String richText, String price, String discountPrice, Integer amount, Integer isShow){
-        Sku sku = new Sku(categoryId,skuName,des,subtitle,thumbnail,richText,new BigDecimal(price),
-                new BigDecimal(discountPrice));
+//        Sku sku = new Sku(categoryId,skuName,des,subtitle,thumbnail,richText,new BigDecimal(price),
+//                new BigDecimal(discountPrice));
         return ApiResult.ok();
     }
 
