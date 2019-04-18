@@ -29,9 +29,31 @@ public class SkuController {
     @RequestMapping(value = "/sku/add", method = RequestMethod.POST)
     public ApiResult addSku(Integer categoryId, String skuName, String des, String subtitle, String thumbnail,
                             String richText, String price, String discountPrice, Integer amount, Integer isShow){
-//        Sku sku = new Sku(categoryId,skuName,des,subtitle,thumbnail,richText,new BigDecimal(price),
-//                new BigDecimal(discountPrice));
+        Sku sku = new Sku(categoryId,skuName,des,subtitle,thumbnail,richText,new BigDecimal(price),
+                new BigDecimal(discountPrice),amount,0,amount,0,0,isShow);
+        sku = skuFacade.save(sku);
+        return ApiResult.ok(sku);
+    }
+
+    @ApiOperation(value = "删除商品")
+    @RequestMapping(value = "/sku/del", method = RequestMethod.POST)
+    public ApiResult delSku(Integer skuId){
+        Sku sku = skuFacade.findById(skuId);
+        if(null == sku){
+            return ApiResult.error("不存在的商品！");
+        }
+        skuFacade.delete(sku);
         return ApiResult.ok();
+    }
+
+    @ApiOperation(value = "查看某个商品")
+    @RequestMapping(value = "/sku/findOne", method = RequestMethod.POST)
+    public ApiResult findOneSku(Integer skuId){
+        Sku sku = skuFacade.findById(skuId);
+        if(null == sku){
+            return ApiResult.error("不存在的商品！");
+        }
+        return ApiResult.ok(sku);
     }
 
 
