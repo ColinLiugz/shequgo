@@ -111,7 +111,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "修改管理员密码")
-    @RequestMapping(value = "/admin/updatePassword", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/updatePassword", method = RequestMethod.POST)
     public ApiResult addAdmin(String password) throws Exception {
         Integer userId ;
         try {

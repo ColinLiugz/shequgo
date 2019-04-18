@@ -39,7 +39,7 @@ public class RegimentalInfoController {
     }
 
     @ApiOperation(value = "审批团长申请列表")
-    @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
     public ApiResult listRegimental(Integer regimentalInfoId ,Integer status){
         try {
             UserUtil.getCurrentUserId();

@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "修改订单状态 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收")
-    @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
         try {
             UserUtil.getCurrentUserId();
