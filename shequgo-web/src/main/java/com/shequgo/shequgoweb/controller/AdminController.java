@@ -6,6 +6,7 @@ import base.Admin;
 import facade.AdminFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +34,14 @@ public class AdminController {
     @Reference(version = "1.0.0",check = false)
     private AdminFacade adminFacade;
 
+    private static Logger log = Logger.getLogger(AdminController.class);
+
     @ApiOperation(value = "用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String phone,String password) throws Exception {
-        System.out.println(phone);
+        log.info(phone);
         Admin admin = adminFacade.findByPhone(phone);
+        log.info(admin);
         if(null == admin){
             return ApiResult.error("不存在的用户");
         }
