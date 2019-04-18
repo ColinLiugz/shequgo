@@ -16,6 +16,7 @@ import utils.ApiResult;
 import utils.MapUtil;
 import utils.Md5Util;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -33,8 +34,9 @@ public class AdminController {
     private AdminFacade adminFacade;
 
     @ApiOperation(value = "用户登录")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String phone,String password) throws Exception {
+        System.out.println(phone);
         Admin admin = adminFacade.findByPhone(phone);
         if(null == admin){
             return ApiResult.error("不存在的用户");
@@ -57,7 +59,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "用户登出")
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ApiResult userLogin(){
         Admin admin ;
         try {
@@ -91,7 +93,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "新增管理员")
-    @RequestMapping(value = "/admin/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
     public ApiResult addAdmin(String name,String phone,String password) throws Exception {
         Integer userId ;
 //        try {

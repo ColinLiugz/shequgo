@@ -1,5 +1,6 @@
 package com.shequgo.shequgoweb.controller;
 
+import base.Sku;
 import com.alibaba.dubbo.config.annotation.Reference;
 import facade.SkuFacade;
 import io.swagger.annotations.Api;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
+
+import java.math.BigDecimal;
 
 /**
  * @Author: Colin
@@ -24,7 +27,10 @@ public class SkuController {
 
     @ApiOperation(value = "添加商品")
     @RequestMapping(value = "/sku/add", method = RequestMethod.GET)
-    public ApiResult addSku(){
+    public ApiResult addSku(Integer categoryId, String skuName, String des, String subtitle, String thumbnail, String richText, String price, String discountPrice, Integer amount, Integer isShow){
+//        Sku sku = new Sku(categoryId,skuName,des,subtitle,thumbnail,richText,new BigDecimal(price),);
         return ApiResult.ok();
     }
+
+
 }
