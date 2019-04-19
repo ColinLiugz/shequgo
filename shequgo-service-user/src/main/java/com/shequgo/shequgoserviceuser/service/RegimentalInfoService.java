@@ -1,6 +1,7 @@
 package com.shequgo.shequgoserviceuser.service;
 
 import base.PageModel;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoserviceuser.repo.RegimentalInfoRepo;
 import base.BaseService;
 import base.RegimentalInfo;
@@ -8,6 +9,7 @@ import facade.RegimentalInfoFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
  * @Author: Colin
  * @Date: 2019/3/28 21:45
  */
+@Component("regimentalInfoFacade")
+@Service(version = "1.0.0")
 public class RegimentalInfoService extends BaseService<RegimentalInfo,RegimentalInfoRepo> implements RegimentalInfoFacade{
     @Autowired
     private RegimentalInfoService(RegimentalInfoRepo repo){

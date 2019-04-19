@@ -31,7 +31,7 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private RedisService redisService;
-    @Reference(version = "1.0.0",check = false)
+    @Reference(version = "1.0.0")
     private AdminFacade adminFacade;
 
     private static Logger log = Logger.getLogger(AdminController.class);
