@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/web")
 public class CategoryController {
-    @Reference(validation = "1.0.0")
+    @Reference(version = "1.0.0")
     private SkuCategoryFacade skuCategoryFacade;
 
     @ApiOperation(value = "添加商品分类")

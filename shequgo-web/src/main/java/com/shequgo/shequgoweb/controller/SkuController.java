@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 @CrossOrigin
 @RequestMapping(value = "/web")
 public class SkuController {
-    @Reference(validation = "1.0.0")
+    @Reference(version = "1.0.0")
     private SkuFacade skuFacade;
 
     @ApiOperation(value = "添加商品")
