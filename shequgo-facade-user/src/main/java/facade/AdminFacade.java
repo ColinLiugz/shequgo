@@ -1,7 +1,7 @@
 package facade;
 
-import base.Admin;
-import base.BaseFacade;
+import entity.Admin;
+import entity.BaseFacade;
 
 /**
  * @Author: Colin

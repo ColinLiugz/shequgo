@@ -1,8 +1,8 @@
 package com.shequgo.shequgoservicecommodity.service;
 
-import base.BaseService;
-import base.PageModel;
-import base.Sku;
+import entity.BaseService;
+import entity.PageModel;
+import entity.Sku;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoservicecommodity.repo.SkuRepo;
 import facade.SkuFacade;
@@ -22,6 +22,30 @@ public class SkuService extends BaseService<Sku,SkuRepo> implements SkuFacade{
     @Autowired
     public SkuService(SkuRepo repo){
         super(repo);
+    }
+
+    @Override
+    public PageModel<Sku> listAll(Integer page,Integer pageSize){
+        Page<Sku> skus = repo.listAll(page,pageSize);
+        return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
+    }
+
+    @Override
+    public PageModel<Sku> listByCategoryId(Integer categoryId,Integer page,Integer pageSize){
+        Page<Sku> skus = repo.listByCategoryId(categoryId,page,pageSize);
+        return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
+    }
+
+    @Override
+    public PageModel<Sku> listByIsShow(Integer isShow,Integer page,Integer pageSize){
+        Page<Sku> skus = repo.listByIsShow(isShow,page,pageSize);
+        return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
+    }
+
+    @Override
+    public PageModel<Sku> listByCategoryIdAndIsShow(Integer categoryId,Integer isShow,Integer page,Integer pageSize){
+        Page<Sku> skus = repo.listByCategoryIdAndIsShow(categoryId,isShow,page,pageSize);
+        return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
     }
 
     @Override

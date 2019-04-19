@@ -2,8 +2,8 @@ package com.shequgo.shequgoserviceuser.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoserviceuser.repo.AdminRepo;
-import base.Admin;
-import base.BaseService;
+import entity.Admin;
+import entity.BaseService;
 import facade.AdminFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

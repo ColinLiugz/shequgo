@@ -2,7 +2,7 @@ package com.shequgo.shequgoweb.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweb.filter.UserUtil;
-import base.Admin;
+import entity.Admin;
 import facade.AdminFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +17,6 @@ import utils.ApiResult;
 import utils.MapUtil;
 import utils.Md5Util;
 
-import java.util.Date;
 import java.util.Map;
 
 /**

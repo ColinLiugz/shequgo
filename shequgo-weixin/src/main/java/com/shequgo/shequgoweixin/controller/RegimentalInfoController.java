@@ -3,7 +3,7 @@ package com.shequgo.shequgoweixin.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.DistanceUtil;
 import com.shequgo.shequgoweixin.util.UserUtil;
-import base.RegimentalInfo;
+import entity.RegimentalInfo;
 import facade.RegimentalInfoFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

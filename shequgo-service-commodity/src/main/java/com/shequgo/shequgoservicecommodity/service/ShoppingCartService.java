@@ -2,8 +2,8 @@ package com.shequgo.shequgoservicecommodity.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoservicecommodity.repo.ShoppingCartRepo;
-import base.BaseService;
-import base.ShoppingCart;
+import entity.BaseService;
+import entity.ShoppingCart;
 import facade.ShoppingCartFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

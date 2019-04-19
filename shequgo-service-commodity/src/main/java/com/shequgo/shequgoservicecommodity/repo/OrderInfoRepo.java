@@ -1,6 +1,6 @@
 package com.shequgo.shequgoservicecommodity.repo;
 
-import base.OrderInfo;
+import entity.OrderInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

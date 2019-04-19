@@ -1,13 +1,12 @@
 package com.shequgo.shequgoweixin.controller;
 
-import base.PageModel;
+import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.UserUtil;
-import base.IntegralRecord;
+import entity.IntegralRecord;
 import facade.IntegralRecordFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

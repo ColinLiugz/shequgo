@@ -1,6 +1,6 @@
 package com.shequgo.shequgoweb.controller;
 
-import base.Admin;
+import entity.Admin;
 import com.shequgo.shequgoweb.filter.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

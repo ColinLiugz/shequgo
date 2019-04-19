@@ -1,10 +1,10 @@
 package com.shequgo.shequgoservicecommodity.service;
 
-import base.PageModel;
+import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoservicecommodity.repo.OrderGroupRepo;
-import base.BaseService;
-import base.OrderGroup;
+import entity.BaseService;
+import entity.OrderGroup;
 import facade.OrderGroupFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,9 +1,8 @@
 package facade;
 
-import base.BaseFacade;
-import base.PageModel;
-import base.RegimentalInfo;
-import org.springframework.data.domain.Page;
+import entity.BaseFacade;
+import entity.PageModel;
+import entity.RegimentalInfo;
 
 import java.util.List;
 

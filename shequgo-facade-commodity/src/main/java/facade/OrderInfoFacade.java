@@ -1,7 +1,7 @@
 package facade;
 
-import base.BaseFacade;
-import base.OrderInfo;
+import entity.BaseFacade;
+import entity.OrderInfo;
 
 import java.util.List;
 

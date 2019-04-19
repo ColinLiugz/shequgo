@@ -1,9 +1,8 @@
 package facade;
 
-import base.BaseFacade;
-import base.CommissionRecord;
-import base.PageModel;
-import org.springframework.data.domain.Page;
+import entity.BaseFacade;
+import entity.CommissionRecord;
+import entity.PageModel;
 
 /**
  * @Author: Colin

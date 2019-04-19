@@ -1,10 +1,10 @@
 package com.shequgo.shequgoserviceuser.service;
 
-import base.PageModel;
+import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoserviceuser.repo.IntegralRecordRepo;
-import base.BaseService;
-import base.IntegralRecord;
+import entity.BaseService;
+import entity.IntegralRecord;
 import facade.IntegralRecordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

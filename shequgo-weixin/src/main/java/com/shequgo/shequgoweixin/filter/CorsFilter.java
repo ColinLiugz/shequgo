@@ -1,6 +1,6 @@
 package com.shequgo.shequgoweixin.filter;
 
-import base.User;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

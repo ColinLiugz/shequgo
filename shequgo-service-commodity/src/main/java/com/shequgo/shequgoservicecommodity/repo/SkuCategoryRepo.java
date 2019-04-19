@@ -1,6 +1,6 @@
 package com.shequgo.shequgoservicecommodity.repo;
 
-import base.SkuCategory;
+import entity.SkuCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

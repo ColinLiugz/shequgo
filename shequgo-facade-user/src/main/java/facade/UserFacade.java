@@ -1,7 +1,7 @@
 package facade;
 
-import base.BaseFacade;
-import base.User;
+import entity.BaseFacade;
+import entity.User;
 
 /**
  * @Author: Colin

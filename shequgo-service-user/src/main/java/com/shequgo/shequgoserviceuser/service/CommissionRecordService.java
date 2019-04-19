@@ -1,10 +1,10 @@
 package com.shequgo.shequgoserviceuser.service;
 
-import base.PageModel;
+import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoserviceuser.repo.CommissionRecordRepo;
-import base.BaseService;
-import base.CommissionRecord;
+import entity.BaseService;
+import entity.CommissionRecord;
 import facade.CommisionRecordFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

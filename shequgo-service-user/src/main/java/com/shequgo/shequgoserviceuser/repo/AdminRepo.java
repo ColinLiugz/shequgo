@@ -1,6 +1,6 @@
 package com.shequgo.shequgoserviceuser.repo;
 
-import base.Admin;
+import entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

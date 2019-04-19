@@ -1,7 +1,7 @@
 package facade;
 
-import base.BaseFacade;
-import base.ShoppingCart;
+import entity.BaseFacade;
+import entity.ShoppingCart;
 
 import java.util.List;
 

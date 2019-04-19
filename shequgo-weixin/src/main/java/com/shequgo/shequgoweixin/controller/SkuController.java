@@ -1,14 +1,13 @@
 package com.shequgo.shequgoweixin.controller;
 
-import base.PageModel;
-import base.Sku;
-import base.SkuCategory;
+import entity.PageModel;
+import entity.Sku;
+import entity.SkuCategory;
 import com.alibaba.dubbo.config.annotation.Reference;
 import facade.SkuCategoryFacade;
 import facade.SkuFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: Colin

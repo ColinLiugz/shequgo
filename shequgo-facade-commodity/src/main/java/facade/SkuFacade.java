@@ -1,9 +1,8 @@
 package facade;
 
-import base.BaseFacade;
-import base.PageModel;
-import base.Sku;
-import org.springframework.data.domain.Page;
+import entity.BaseFacade;
+import entity.PageModel;
+import entity.Sku;
 
 /**
  * @Author: Colin
@@ -11,6 +10,10 @@ import org.springframework.data.domain.Page;
  */
 public interface SkuFacade extends BaseFacade<Sku>{
 
+    PageModel<Sku> listAll(Integer page,Integer pageSize);
+    PageModel<Sku> listByCategoryId(Integer categoryId,Integer page,Integer pageSize);
+    PageModel<Sku> listByIsShow(Integer isShow,Integer page,Integer pageSize);
+    PageModel<Sku> listByCategoryIdAndIsShow(Integer categoryId,Integer isShow,Integer page,Integer pageSize);
     PageModel<Sku> listOrdinarySkuByCategoryId(Integer categoryId, Integer page,Integer pageSize);
     PageModel<Sku> listOrdinarySku(Integer page, Integer pageSize);
     PageModel<Sku> listGroupBuyingSku(Integer page,Integer pageSize);

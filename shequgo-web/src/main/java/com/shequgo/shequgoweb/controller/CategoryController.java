@@ -1,6 +1,6 @@
 package com.shequgo.shequgoweb.controller;
 
-import base.SkuCategory;
+import entity.SkuCategory;
 import com.alibaba.dubbo.config.annotation.Reference;
 import facade.SkuCategoryFacade;
 import io.swagger.annotations.Api;

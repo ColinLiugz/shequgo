@@ -2,8 +2,8 @@ package com.shequgo.shequgoserviceuser.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoserviceuser.repo.ReceiveAddressRepo;
-import base.BaseService;
-import base.ReceiveAddress;
+import entity.BaseService;
+import entity.ReceiveAddress;
 import facade.ReceiveAddressFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

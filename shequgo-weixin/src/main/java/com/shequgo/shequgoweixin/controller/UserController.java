@@ -2,7 +2,7 @@ package com.shequgo.shequgoweixin.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.UserUtil;
-import base.User;
+import entity.User;
 import facade.IntegralRecordFacade;
 import facade.UserFacade;
 import io.swagger.annotations.Api;

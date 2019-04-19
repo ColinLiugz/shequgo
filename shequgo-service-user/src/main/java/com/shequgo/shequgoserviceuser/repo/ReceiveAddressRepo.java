@@ -1,6 +1,6 @@
 package com.shequgo.shequgoserviceuser.repo;
 
-import base.ReceiveAddress;
+import entity.ReceiveAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

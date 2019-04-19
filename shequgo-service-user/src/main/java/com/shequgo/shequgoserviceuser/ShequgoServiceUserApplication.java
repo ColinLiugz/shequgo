@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan("base.**")
+@EntityScan("entity.**")
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackages = "com.shequgo.shequgoserviceuser.repo")
 public class ShequgoServiceUserApplication {

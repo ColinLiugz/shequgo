@@ -1,4 +1,4 @@
-package base;
+package entity;
 
 import lombok.Data;
 
@@ -28,6 +28,9 @@ public class RegimentalInfo extends BaseObject implements Comparable<RegimentalI
      * 状态 0正在审核 1审核通过 2审核失败
      */
     private Integer status;
+    /**
+     * 佣金
+     */
     @Column(columnDefinition = "DECIMAL(19,2) default 0.00")
     private BigDecimal commission;
     /**

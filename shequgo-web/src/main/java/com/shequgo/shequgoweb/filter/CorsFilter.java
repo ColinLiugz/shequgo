@@ -1,8 +1,7 @@
 package com.shequgo.shequgoweb.filter;
 
-import base.Admin;
+import entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.RedisService;

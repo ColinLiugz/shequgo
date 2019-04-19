@@ -1,6 +1,6 @@
 package com.shequgo.shequgoweixin.util;
 
-import base.User;
+import entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 

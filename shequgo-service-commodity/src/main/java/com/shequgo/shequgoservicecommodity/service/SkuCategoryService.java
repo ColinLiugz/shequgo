@@ -1,7 +1,7 @@
 package com.shequgo.shequgoservicecommodity.service;
 
-import base.BaseService;
-import base.SkuCategory;
+import entity.BaseService;
+import entity.SkuCategory;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoservicecommodity.repo.SkuCategoryRepo;
 import facade.SkuCategoryFacade;

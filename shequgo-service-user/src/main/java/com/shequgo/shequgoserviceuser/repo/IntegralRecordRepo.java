@@ -1,6 +1,6 @@
 package com.shequgo.shequgoserviceuser.repo;
 
-import base.IntegralRecord;
+import entity.IntegralRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

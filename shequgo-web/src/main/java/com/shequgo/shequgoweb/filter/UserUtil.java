@@ -1,6 +1,6 @@
 package com.shequgo.shequgoweb.filter;
 
-import base.Admin;
+import entity.Admin;
 
 import javax.servlet.http.HttpServletRequest;
 

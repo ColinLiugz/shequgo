@@ -1,9 +1,8 @@
 package facade;
 
-import base.BaseFacade;
-import base.IntegralRecord;
-import base.PageModel;
-import org.springframework.data.domain.Page;
+import entity.BaseFacade;
+import entity.IntegralRecord;
+import entity.PageModel;
 
 /**
  * @Author: Colin

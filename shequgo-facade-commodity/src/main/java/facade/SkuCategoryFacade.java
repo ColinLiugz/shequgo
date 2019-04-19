@@ -1,7 +1,7 @@
 package facade;
 
-import base.BaseFacade;
-import base.SkuCategory;
+import entity.BaseFacade;
+import entity.SkuCategory;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package facade;
 
-import base.BaseFacade;
-import base.ReceiveAddress;
+import entity.BaseFacade;
+import entity.ReceiveAddress;
 
 import java.util.List;
 

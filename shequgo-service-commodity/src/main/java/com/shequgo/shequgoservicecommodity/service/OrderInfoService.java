@@ -2,8 +2,8 @@ package com.shequgo.shequgoservicecommodity.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.shequgo.shequgoservicecommodity.repo.OrderInfoRepo;
-import base.BaseService;
-import base.OrderInfo;
+import entity.BaseService;
+import entity.OrderInfo;
 import facade.OrderInfoFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
