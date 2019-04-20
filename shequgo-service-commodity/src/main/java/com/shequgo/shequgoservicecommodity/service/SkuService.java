@@ -26,25 +26,25 @@ public class SkuService extends BaseService<Sku,SkuRepo> implements SkuFacade{
 
     @Override
     public PageModel<Sku> listAll(Integer page,Integer pageSize){
-        Page<Sku> skus = repo.listAll(page,pageSize);
+        Page<Sku> skus = repo.listAll(PageRequest.of(page-1,pageSize));
         return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
     }
 
     @Override
     public PageModel<Sku> listByCategoryId(Integer categoryId,Integer page,Integer pageSize){
-        Page<Sku> skus = repo.listByCategoryId(categoryId,page,pageSize);
+        Page<Sku> skus = repo.listByCategoryId(categoryId,PageRequest.of(page-1,pageSize));
         return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
     }
 
     @Override
     public PageModel<Sku> listByIsShow(Integer isShow,Integer page,Integer pageSize){
-        Page<Sku> skus = repo.listByIsShow(isShow,page,pageSize);
+        Page<Sku> skus = repo.listByIsShow(isShow,PageRequest.of(page-1,pageSize));
         return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
     }
 
     @Override
     public PageModel<Sku> listByCategoryIdAndIsShow(Integer categoryId,Integer isShow,Integer page,Integer pageSize){
-        Page<Sku> skus = repo.listByCategoryIdAndIsShow(categoryId,isShow,page,pageSize);
+        Page<Sku> skus = repo.listByCategoryIdAndIsShow(categoryId,isShow,PageRequest.of(page-1,pageSize));
         return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());
     }
 

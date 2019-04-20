@@ -13,16 +13,16 @@ import org.springframework.data.jpa.repository.Query;
 public interface SkuRepo extends JpaRepository<Sku,Integer> {
 
     @Query("select s from Sku s where s.isDel=0 ")
-    Page<Sku> listAll(Integer page,Integer pageSize);
+    Page<Sku> listAll(Pageable pageable);
 
     @Query("select s from Sku s where s.isDel=0 and s.categoryId=?1")
-    Page<Sku> listByCategoryId(Integer categoryId,Integer page,Integer pageSize);
+    Page<Sku> listByCategoryId(Integer categoryId,Pageable pageable);
 
     @Query("select s from Sku s where s.isDel=0 and s.isShow=?1")
-    Page<Sku> listByIsShow(Integer isShow,Integer page,Integer pageSize);
+    Page<Sku> listByIsShow(Integer isShow,Pageable pageable);
 
     @Query("select s from Sku s where s.isDel=0 and s.categoryId=?1 and s.isShow=?2")
-    Page<Sku> listByCategoryIdAndIsShow(Integer categoryId,Integer isShow,Integer page,Integer pageSize);
+    Page<Sku> listByCategoryIdAndIsShow(Integer categoryId,Integer isShow,Pageable pageable);
 
     @Query("select s from Sku s where s.categoryId=?1 and s.isGroupBuying=0  and s.isDel=0 and s.isShow =1 order by s.id desc")
     Page<Sku> listOrdinarySkuByCategoryId(Integer categoryId, Pageable pageable);
