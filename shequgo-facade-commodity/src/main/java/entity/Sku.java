@@ -62,6 +62,8 @@ public class Sku extends BaseObject{
     private Integer needAmount;
     private Integer isShow;
 
+    public Sku(){}
+
     public Sku(Integer categoryId, String skuName, String des, String subtitle, String thumbnail, String richText, BigDecimal price, BigDecimal discountPrice, Integer amount, Integer soldAmount, Integer surplusAmount, Integer isGroupBuying, Integer needAmount, Integer isShow) {
         this.categoryId = categoryId;
         this.skuName = skuName;

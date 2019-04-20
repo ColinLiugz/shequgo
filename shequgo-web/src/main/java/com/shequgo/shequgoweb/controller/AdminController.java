@@ -84,13 +84,8 @@ public class AdminController {
 
     @ApiOperation(value = "获得用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public ApiResult  getUserInfo(){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+    public ApiResult  getUserInfo() throws Exception {
+        Integer userId = UserUtil.getCurrentUserId();
         Admin admin = adminFacade.findById(userId);
         return ApiResult.ok(admin);
     }

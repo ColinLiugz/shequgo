@@ -2,8 +2,10 @@ package com.shequgo.shequgoweb.filter;
 
 import entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ServerWebExchange;
 import redis.RedisService;
 
 import javax.servlet.*;
@@ -40,14 +42,20 @@ public class CorsFilter implements Filter {
         }
 
         String uri = request.getRequestURI();
-        if(!"/login".equals(uri)){
+        if(isNeedCheckAuth(uri)){
             String authorization = request.getHeader("Authorization");
             if(StringUtils.isEmpty(authorization) || null == redisService.get(authorization)){
-//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/web/notLogin");
+                requestDispatcher.forward(request, response);
+                return;
             }else {
                 Admin admin = (Admin)redisService.get(authorization);
                 request.setAttribute("currentUser",admin);
             }
+        }else{
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/web/notLogin");
+            requestDispatcher.forward(request, response);
+            return;
         }
         filterChain.doFilter(request,response);
     }
@@ -55,5 +63,12 @@ public class CorsFilter implements Filter {
     @Override
     public void destroy() {
         System.out.println("<<<<<<<<<<<filter destory>>>>>>>>>>>");
+    }
+
+    private boolean isNeedCheckAuth(String uri){
+        if(uri.startsWith("/web") && !uri.startsWith("/web/login")){
+            return false;
+        }
+        return true;
     }
 }

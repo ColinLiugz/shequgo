@@ -34,4 +34,16 @@ public class CommonController {
         return ApiResult.ok(QiniuUtil.getTocken());
     }
 
+    @ApiOperation(value = "未登陆")
+    @RequestMapping(value = "/notLogin")
+    public ApiResult notLogin(){
+        return new ApiResult(401,"未登录");
+    }
+
+    @ApiOperation(value = "参数不能为空")
+    @RequestMapping(value = "/paramsIsNull")
+    public ApiResult paramsIsNull(){
+        return ApiResult.error("参数不能为空！");
+    }
+
 }
