@@ -52,10 +52,6 @@ public class CorsFilter implements Filter {
                 Admin admin = (Admin)redisService.get(authorization);
                 request.setAttribute("currentUser",admin);
             }
-        }else{
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/web/notLogin");
-            requestDispatcher.forward(request, response);
-            return;
         }
         filterChain.doFilter(request,response);
     }
