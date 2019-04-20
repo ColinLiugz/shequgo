@@ -1,6 +1,8 @@
 package com.shequgo.shequgoweb.filter;
 
 import entity.Admin;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 public class UserUtil {
 
     public static Admin getCurrentUser() throws Exception {
-        ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
-        HttpServletRequest request = requestHolder.get();
+//        ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
         Admin currentUser = (Admin)request.getAttribute("currentUser");
         if(null == currentUser){
             throw new Exception("401");
