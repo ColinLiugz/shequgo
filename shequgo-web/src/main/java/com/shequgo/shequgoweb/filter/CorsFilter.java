@@ -62,7 +62,7 @@ public class CorsFilter implements Filter {
     }
 
     private boolean isNeedCheckAuth(String uri){
-        if(uri.startsWith("/web") && !uri.startsWith("/web/login")){
+        if(uri.startsWith("/web/") && !uri.startsWith("/web/login")){
             return true;
         }
         return false;
