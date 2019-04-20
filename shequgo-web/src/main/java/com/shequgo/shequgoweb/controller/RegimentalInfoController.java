@@ -28,11 +28,6 @@ public class RegimentalInfoController {
     @ApiOperation(value = "查看团长申请列表")
     @RequestMapping(value = "/regimentalInfo/list", method = RequestMethod.GET)
     public ApiResult listRegimental(Integer status,Integer page,Integer pageSize){
-        try {
-            UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         PageModel<RegimentalInfo> regimentalInfoPage = regimentalInfoFacade.listByStatus(status, page, pageSize);
         return ApiResult.ok(regimentalInfoPage);
     }
@@ -40,11 +35,6 @@ public class RegimentalInfoController {
     @ApiOperation(value = "审批团长申请列表")
     @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
     public ApiResult listRegimental(Integer regimentalInfoId ,Integer status){
-        try {
-            UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(regimentalInfoId);
         regimentalInfo.setStatus(status);
         regimentalInfo = regimentalInfoFacade.save(regimentalInfo);

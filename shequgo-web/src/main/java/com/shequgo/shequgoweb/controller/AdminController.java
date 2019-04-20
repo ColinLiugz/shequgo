@@ -17,6 +17,7 @@ import utils.ApiResult;
 import utils.MapUtil;
 import utils.Md5Util;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,9 +39,7 @@ public class AdminController {
     @ApiOperation(value = "用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String phone,String password) throws Exception {
-        log.info(phone);
         Admin admin = adminFacade.findByPhone(phone);
-        log.info(admin);
         if(null == admin){
             return ApiResult.error("不存在的用户");
         }
@@ -64,12 +63,7 @@ public class AdminController {
     @ApiOperation(value = "用户登出")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ApiResult userLogin(){
-        Admin admin ;
-        try {
-            admin = UserUtil.getCurrentUser();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Admin admin = UserUtil.getCurrentUser();
         String userTab = "web" + admin.getId();
         String md5str="";
         try {
@@ -84,7 +78,7 @@ public class AdminController {
 
     @ApiOperation(value = "获得用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public ApiResult  getUserInfo() throws Exception {
+    public ApiResult  getUserInfo() {
         Integer userId = UserUtil.getCurrentUserId();
         Admin admin = adminFacade.findById(userId);
         return ApiResult.ok(admin);
@@ -93,12 +87,9 @@ public class AdminController {
     @ApiOperation(value = "新增管理员")
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
     public ApiResult addAdmin(String name,String phone,String password) throws Exception {
-        Integer userId ;
-//        try {
-//            userId = UserUtil.getCurrentUserId();
-//        } catch (Exception e) {
-//            return new ApiResult(401,"未登录");
-//        }
+        if(null != adminFacade.findByPhone(phone)){
+            return ApiResult.error("该手机号已经添加过！");
+        }
         Admin admin = new Admin();
         admin.setName(name);
         admin.setPhone(phone);
@@ -111,15 +102,20 @@ public class AdminController {
     @ApiOperation(value = "修改管理员密码")
     @RequestMapping(value = "/admin/updatePassword", method = RequestMethod.POST)
     public ApiResult addAdmin(String password) throws Exception {
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         Admin admin = adminFacade.findById(userId);
         admin.setPassword(Md5Util.md5(password,admin.getId()+"passWord"));
         adminFacade.save(admin);
         return ApiResult.ok(admin);
+    }
+
+    @ApiOperation(value = "获得管理员列表")
+    @RequestMapping(value = "/admin/list", method = RequestMethod.POST)
+    public ApiResult listAdmin(){
+        Integer adminId = UserUtil.getCurrentUserId();
+        Admin admin = adminFacade.findById(adminId);
+        List<Admin> othersAdminList = adminFacade.listOthersAdimn(adminId);
+        othersAdminList.add(0,admin);
+        return ApiResult.ok(othersAdminList);
     }
 }

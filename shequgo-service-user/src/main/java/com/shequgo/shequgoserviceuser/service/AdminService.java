@@ -8,6 +8,8 @@ import facade.AdminFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author: Colin
  * @Date: 2019/3/28 21:32
@@ -23,5 +25,10 @@ public class AdminService extends BaseService<Admin,AdminRepo> implements AdminF
     @Override
     public Admin findByPhone(String phone){
         return repo.findByPhone(phone);
+    }
+
+    @Override
+    public List<Admin> listOthersAdimn(Integer thisAdminId){
+        return repo.listOthersAdimn(thisAdminId);
     }
 }

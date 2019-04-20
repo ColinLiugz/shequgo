@@ -34,11 +34,6 @@ public class OrderController {
     @ApiOperation(value = "查看订单列表")
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
     public ApiResult listOrder(Integer logisticsStatus,Integer page,Integer pageSize){
-        try {
-            UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
         PageModel<OrderGroup> orderGroups = orderGroupFacade.listByType(logisticsStatus,page,pageSize);
         for(OrderGroup orderGroup : orderGroups.getContent()){
@@ -57,11 +52,6 @@ public class OrderController {
     @ApiOperation(value = "修改订单状态 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收")
     @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
-        try {
-            UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
         if(orderGroup == null){
             return ApiResult.error("不存在的订单");

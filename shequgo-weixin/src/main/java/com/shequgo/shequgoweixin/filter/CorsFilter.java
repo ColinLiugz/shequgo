@@ -34,11 +34,18 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
 
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(200);
+            return;
+        }
+
         String uri = request.getRequestURI();
-        if(!"/login".equals(uri)){
+        if(isNeedCheckAuth(uri)){
             String authorization = request.getHeader("Authorization");
             if(StringUtils.isEmpty(authorization) || null == redisService.get(authorization)){
-//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/weixin/notLogin");
+                requestDispatcher.forward(request, response);
+                return;
             }else {
                 User user = (User)redisService.get(authorization);
                 request.setAttribute("currentUser",user);
@@ -50,5 +57,12 @@ public class CorsFilter implements Filter {
     @Override
     public void destroy() {
         System.out.println("<<<<<<<<<<<filter destory>>>>>>>>>>>");
+    }
+
+    private boolean isNeedCheckAuth(String uri){
+        if(uri.startsWith("/weixin/") && !uri.startsWith("/weixin/login")){
+            return true;
+        }
+        return false;
     }
 }
