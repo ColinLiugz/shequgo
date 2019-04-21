@@ -99,11 +99,13 @@ public class AdminController {
         return ApiResult.ok(admin);
     }
 
-    @ApiOperation(value = "修改管理员密码")
-    @RequestMapping(value = "/admin/updatePassword", method = RequestMethod.POST)
-    public ApiResult addAdmin(String password) throws Exception {
+    @ApiOperation(value = "修改管理员信息")
+    @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
+    public ApiResult addAdmin(String name,String phone,String password,String verificationCode) throws Exception {
         Integer userId = UserUtil.getCurrentUserId();
         Admin admin = adminFacade.findById(userId);
+        admin.setName(name);
+        admin.setPhone(phone);
         admin.setPassword(Md5Util.md5(password,admin.getId()+"passWord"));
         adminFacade.save(admin);
         return ApiResult.ok(admin);

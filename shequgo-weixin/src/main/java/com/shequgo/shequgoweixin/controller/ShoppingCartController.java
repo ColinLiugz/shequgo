@@ -27,7 +27,7 @@ public class ShoppingCartController {
     private ShoppingCartFacade shoppingCartFacade;
 
     @ApiOperation(value = "向购物车中添加一件商品，数量为1")
-    @RequestMapping(value = "/skuToShoppingCart/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/skuToShoppingCart/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer skuId,Integer regimentalId){
         Integer userId ;
         try {
@@ -53,7 +53,7 @@ public class ShoppingCartController {
     }
 
     @ApiOperation(value = "对购物车中某件商品数量加一")
-    @RequestMapping(value = "/shoppingCart/amount/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/shoppingCart/amount/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer shoppingCartId){
         Integer userId ;
         try {
@@ -71,7 +71,7 @@ public class ShoppingCartController {
     }
 
     @ApiOperation(value = "对购物车中某件商品数量减一")
-    @RequestMapping(value = "/shoppingCart/amount/reduce", method = RequestMethod.GET)
+    @RequestMapping(value = "/shoppingCart/amount/reduce", method = RequestMethod.POST)
     public ApiResult reduceSkuToShoppingCart(Integer shoppingCartId){
         Integer userId ;
         try {
@@ -93,7 +93,7 @@ public class ShoppingCartController {
     }
 
     @ApiOperation(value = "删除购物车中某件商品")
-    @RequestMapping(value = "/shoppingCart/deleteOne", method = RequestMethod.GET)
+    @RequestMapping(value = "/shoppingCart/deleteOne", method = RequestMethod.POST)
     public ApiResult delSkuToShoppingCart(Integer shoppingCartId){
         Integer userId ;
         try {

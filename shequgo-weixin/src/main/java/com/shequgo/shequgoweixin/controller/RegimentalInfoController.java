@@ -57,7 +57,7 @@ public class RegimentalInfoController {
     }
 
     @ApiOperation(value = "申请成为团长")
-    @RequestMapping(value = "/regimentalInfo/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/regimentalInfo/add", method = RequestMethod.POST)
     public ApiResult addRegimentalInfo(String realName,String phone,String address,String location){
         Integer userId ;
         try {
@@ -81,7 +81,7 @@ public class RegimentalInfoController {
     }
 
     @ApiOperation(value = "修改团长信息")
-    @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
     public ApiResult updateRegimentalInfo(String realName,String phone,String address,String location){
         Integer userId ;
         try {

@@ -36,7 +36,7 @@ public class UserController {
     private IntegralRecordFacade integralRecordFacade;
 
     @ApiOperation(value = "用户登录")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String weixinCode,String encryptedData, String iv){
         User user = userFacade.getUserInfoByCode(weixinCode,encryptedData,iv);
         String userTab = "xiaochengxu" + user.getId() + user.getOpenid();

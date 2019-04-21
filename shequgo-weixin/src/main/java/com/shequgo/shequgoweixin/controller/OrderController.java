@@ -43,7 +43,7 @@ public class OrderController {
     private RegimentalInfoFacade  regimentalInfoFacade;
 
     @ApiOperation(value = "创建普通订单，skuKeyIdAndAmounts是 skuid@amount#skuid@amount 格式")
-    @RequestMapping(value = "/ordinaryOrder/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/ordinaryOrder/create", method = RequestMethod.POST)
     public ApiResult createOrdinaryOrder(Integer regimentalId,String skuKeyIdAndAmounts, Integer isUseIntegral, Integer logisticsType,Integer regimentalInfoId) throws IOException {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = sdf.format(new Date());
@@ -160,7 +160,7 @@ public class OrderController {
         return ApiResult.ok(orderPage);
     }
 
-    @ApiOperation(value = "用户查看订单列表")
+    @ApiOperation(value = "团长查看订单列表")
     @RequestMapping(value = "/ordinaryOrder/regimental/list", method = RequestMethod.GET)
     public ApiResult listOrderByRegimental(Integer logisticsStatus,Integer page,Integer pageSize){
         Integer userId ;
@@ -186,7 +186,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "团长修改订单状态 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收")
-    @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
         Integer userId ;
         try {

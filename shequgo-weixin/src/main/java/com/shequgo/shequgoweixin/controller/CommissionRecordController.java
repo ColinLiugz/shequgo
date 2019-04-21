@@ -45,7 +45,7 @@ public class CommissionRecordController {
     }
 
     @ApiOperation(value = "佣金提现接口")
-    @RequestMapping(value = "/userCommission/withdrawal", method = RequestMethod.GET)
+    @RequestMapping(value = "/userCommission/withdrawal", method = RequestMethod.POST)
     public ApiResult withdrawalCommision(Float amount){
         Integer userId ;
         try {

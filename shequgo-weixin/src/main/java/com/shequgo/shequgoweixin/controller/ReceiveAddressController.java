@@ -27,7 +27,7 @@ public class ReceiveAddressController {
     private ReceiveAddressFacade receiveAddressFacade;
 
     @ApiOperation(value = "添加收货地址")
-    @RequestMapping(value = "/add/receiveAddress", method = RequestMethod.GET)
+    @RequestMapping(value = "/add/receiveAddress", method = RequestMethod.POST)
     public ApiResult addReceiveAddress(String receiveName,String receivePhone,String address,Integer isDefault){
         Integer userId ;
         try {
@@ -53,7 +53,7 @@ public class ReceiveAddressController {
     }
 
     @ApiOperation(value = "删除收货地址信息")
-    @RequestMapping(value = "/delete/receiveAddress", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/receiveAddress", method = RequestMethod.POST)
     public ApiResult delReceiveAddress(Integer addressId){
         Integer userId ;
         try {
@@ -70,7 +70,7 @@ public class ReceiveAddressController {
     }
 
     @ApiOperation(value = "修改收货地址信息")
-    @RequestMapping(value = "/update/receiveAddress", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/receiveAddress", method = RequestMethod.POST)
     public ApiResult updateReceiveAddress(Integer addressId,String receiveName,String receivePhone,String address,Integer isDefault){
         Integer userId ;
         try {
