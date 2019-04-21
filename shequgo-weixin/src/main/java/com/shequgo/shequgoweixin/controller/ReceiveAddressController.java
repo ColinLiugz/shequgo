@@ -29,12 +29,7 @@ public class ReceiveAddressController {
     @ApiOperation(value = "添加收货地址")
     @RequestMapping(value = "/add/receiveAddress", method = RequestMethod.POST)
     public ApiResult addReceiveAddress(String receiveName,String receivePhone,String address,Integer isDefault){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         if(1 == isDefault){
             ReceiveAddress defaultAddress = receiveAddressFacade.findDefault(userId);
             if(null != defaultAddress){
@@ -55,12 +50,6 @@ public class ReceiveAddressController {
     @ApiOperation(value = "删除收货地址信息")
     @RequestMapping(value = "/delete/receiveAddress", method = RequestMethod.POST)
     public ApiResult delReceiveAddress(Integer addressId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         ReceiveAddress receiveAddress = receiveAddressFacade.findById(addressId);
         if(receiveAddress == null){
             return ApiResult.error("不存在的收货地址！");
@@ -72,12 +61,7 @@ public class ReceiveAddressController {
     @ApiOperation(value = "修改收货地址信息")
     @RequestMapping(value = "/update/receiveAddress", method = RequestMethod.POST)
     public ApiResult updateReceiveAddress(Integer addressId,String receiveName,String receivePhone,String address,Integer isDefault){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         if(isDefault == 1){
             ReceiveAddress defaultAddress = receiveAddressFacade.findDefault(userId);
             if(null != defaultAddress){
@@ -101,12 +85,7 @@ public class ReceiveAddressController {
     @ApiOperation(value = "查看收货地址信息列表")
     @RequestMapping(value = "/list/receiveAddress", method = RequestMethod.GET)
     public ApiResult listReceiveAddress(){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         List<ReceiveAddress> receiveAddressList = receiveAddressFacade.listByUser(userId);
         return ApiResult.ok(receiveAddressList);
     }

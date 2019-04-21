@@ -45,16 +45,9 @@ public class OrderController {
     @ApiOperation(value = "创建普通订单，skuKeyIdAndAmounts是 skuid@amount#skuid@amount 格式")
     @RequestMapping(value = "/ordinaryOrder/create", method = RequestMethod.POST)
     public ApiResult createOrdinaryOrder(Integer regimentalId,String skuKeyIdAndAmounts, Integer isUseIntegral, Integer logisticsType,Integer regimentalInfoId) throws IOException {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = sdf.format(new Date());
-        Integer userId ;
-        User user;
-        try {
-            userId = UserUtil.getCurrentUserId();
-            user = UserUtil.getCurrentUser();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
+        User user = UserUtil.getCurrentUser();
+
         OrderGroup orderGroup = new OrderGroup();
         orderGroup.setUserId(userId);
         orderGroup.setRegimentalId(regimentalId);
@@ -139,12 +132,7 @@ public class OrderController {
     @ApiOperation(value = "用户查看订单列表")
     @RequestMapping(value = "/ordinaryOrder/user/list", method = RequestMethod.GET)
     public ApiResult listOrderByType(Integer logisticsStatus,Integer page,Integer pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
         PageModel<OrderGroup> orderGroups = orderGroupFacade.listByUserIdAndType(userId,logisticsStatus, page,pageSize);
         for(OrderGroup orderGroup : orderGroups.getContent()){
@@ -163,12 +151,7 @@ public class OrderController {
     @ApiOperation(value = "团长查看订单列表")
     @RequestMapping(value = "/ordinaryOrder/regimental/list", method = RequestMethod.GET)
     public ApiResult listOrderByRegimental(Integer logisticsStatus,Integer page,Integer pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
         PageModel<OrderGroup> orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalInfo.getId(),logisticsStatus,page,pageSize);
@@ -188,12 +171,7 @@ public class OrderController {
     @ApiOperation(value = "团长修改订单状态 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收")
     @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
         if(orderGroup == null){

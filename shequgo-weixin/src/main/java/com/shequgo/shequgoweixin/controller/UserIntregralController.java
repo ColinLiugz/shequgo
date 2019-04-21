@@ -28,12 +28,7 @@ public class UserIntregralController {
     @ApiOperation(value = "获得全部用户积分记录列表")
     @RequestMapping(value = "/userIntegralRecord/list", method = RequestMethod.GET)
     public ApiResult listIntegralRecord(Integer page,Integer pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         PageModel  <IntegralRecord> integralRecords = integralRecordFacade.listRecord(userId,page,pageSize);
         return ApiResult.ok(integralRecords);
     }
@@ -41,12 +36,7 @@ public class UserIntregralController {
     @ApiOperation(value = "获得用户积分增加记录列表")
     @RequestMapping(value = "/userIntegralAddRecord/list", method = RequestMethod.GET)
     public ApiResult  listIntegralAddRecord(Integer page, Integer pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         PageModel<IntegralRecord> userRecord = integralRecordFacade.listRecordByUseridAndType(userId,0, page,pageSize);
         return ApiResult.ok(userRecord);
     }
@@ -54,12 +44,7 @@ public class UserIntregralController {
     @ApiOperation(value = "获得用户积分使用记录列表")
     @RequestMapping(value = "/userIntegralUsedRecord/list", method = RequestMethod.GET)
     public ApiResult  listIntegralUsedRecord(Integer page, Integer pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         PageModel<IntegralRecord> userRecord = integralRecordFacade.listRecordByUseridAndType(userId,1, page,pageSize);
         return ApiResult.ok(userRecord);
     }

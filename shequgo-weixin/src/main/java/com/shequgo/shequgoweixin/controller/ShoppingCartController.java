@@ -29,12 +29,7 @@ public class ShoppingCartController {
     @ApiOperation(value = "向购物车中添加一件商品，数量为1")
     @RequestMapping(value = "/skuToShoppingCart/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer skuId,Integer regimentalId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         ShoppingCart shoppingCart = shoppingCartFacade.findByUserIdAndRegimentalAndSkuid(userId,regimentalId,skuId);
         Integer  amount;
         if(null == shoppingCart){
@@ -55,12 +50,7 @@ public class ShoppingCartController {
     @ApiOperation(value = "对购物车中某件商品数量加一")
     @RequestMapping(value = "/shoppingCart/amount/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer shoppingCartId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         ShoppingCart shoppingCart = shoppingCartFacade.findById(shoppingCartId);
         if(shoppingCart == null){
             return ApiResult.error("不存在的购物车记录");
@@ -73,12 +63,6 @@ public class ShoppingCartController {
     @ApiOperation(value = "对购物车中某件商品数量减一")
     @RequestMapping(value = "/shoppingCart/amount/reduce", method = RequestMethod.POST)
     public ApiResult reduceSkuToShoppingCart(Integer shoppingCartId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         ShoppingCart shoppingCart = shoppingCartFacade.findById(shoppingCartId);
         if(shoppingCart == null){
             return ApiResult.error("不存在的购物车记录");
@@ -95,12 +79,6 @@ public class ShoppingCartController {
     @ApiOperation(value = "删除购物车中某件商品")
     @RequestMapping(value = "/shoppingCart/deleteOne", method = RequestMethod.POST)
     public ApiResult delSkuToShoppingCart(Integer shoppingCartId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
         ShoppingCart shoppingCart = shoppingCartFacade.findById(shoppingCartId);
         if(shoppingCart ==null){
             return ApiResult.error("不存在的购物车记录");
@@ -112,12 +90,7 @@ public class ShoppingCartController {
     @ApiOperation(value = "查看购物车中所有商品")
     @RequestMapping(value = "/shoppingCart/list", method = RequestMethod.GET)
     public ApiResult listSkuToShoppingCart(Integer regimentalId){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         List<ShoppingCart> shoppingCartList = shoppingCartFacade.listByUserAndRegimental(userId,regimentalId);
         return ApiResult.ok(shoppingCartList);
     }

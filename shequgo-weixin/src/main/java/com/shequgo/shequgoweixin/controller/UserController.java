@@ -56,12 +56,7 @@ public class UserController {
     @ApiOperation(value = "获得用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
     public ApiResult  getUserInfo(){
-        User user;
-        try {
-            user = UserUtil.getCurrentUser();
-        } catch (Exception e) {
-            return new ApiResult(401,"用户未登录");
-        }
+        User user = UserUtil.getCurrentUser();
         return ApiResult.ok(user);
     }
 }

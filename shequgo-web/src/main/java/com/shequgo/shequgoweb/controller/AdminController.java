@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import redis.RedisService;
 import utils.ApiResult;
 import utils.MapUtil;
 import utils.Md5Util;
+import utils.SmsUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -36,12 +38,24 @@ public class AdminController {
 
     private static Logger log = Logger.getLogger(AdminController.class);
 
+    @ApiOperation(value = "用户登录前发送验证码")
+    @RequestMapping(value = "/send/checkCode/login", method = RequestMethod.POST)
+    public ApiResult sendLoginCheckCode(String phone){
+        String checkCode = SmsUtil.sendCheckCode(phone);
+        redisService.set(phone + "_login",checkCode,300);
+        return ApiResult.ok();
+    }
+
     @ApiOperation(value = "用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ApiResult userLogin(String phone,String password) throws Exception {
+    public ApiResult userLogin(String phone,String password,String checkCode) throws Exception {
         Admin admin = adminFacade.findByPhone(phone);
         if(null == admin){
             return ApiResult.error("不存在的用户");
+        }
+        String serverCheckCode = (String)redisService.get(phone + "_login");
+        if(!serverCheckCode.equals(checkCode)){
+            return ApiResult.error("验证码错误！");
         }
         if(!Md5Util.md5(password,admin.getId()+"passWord").equals(admin.getPassword())){
             return ApiResult.error("密码错误");
@@ -99,9 +113,23 @@ public class AdminController {
         return ApiResult.ok(admin);
     }
 
+    @ApiOperation(value = "给当前管理员发送验证码")
+    @RequestMapping(value = "/send/checkCode/admin", method = RequestMethod.POST)
+    public ApiResult sendAdminCheckCode(){
+        String phone = UserUtil.getCurrentUser().getPhone();
+        String checkCode = SmsUtil.sendCheckCode(phone);
+        redisService.set(phone + "_admin",checkCode,300);
+        return ApiResult.ok();
+    }
+
     @ApiOperation(value = "修改管理员信息")
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
-    public ApiResult addAdmin(String name,String phone,String password,String verificationCode) throws Exception {
+    public ApiResult addAdmin(String name,String phone,String password,String checkCode) throws Exception {
+        String adminPhone = UserUtil.getCurrentUser().getPhone();
+        String serverCheckCode = (String)redisService.get(adminPhone + "_admin");
+        if(!serverCheckCode.equals(checkCode)){
+            return ApiResult.error("验证码错误！");
+        }
         Integer userId = UserUtil.getCurrentUserId();
         Admin admin = adminFacade.findById(userId);
         admin.setName(name);

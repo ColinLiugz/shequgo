@@ -10,17 +10,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UserUtil {
 
-    public static User getCurrentUser() throws Exception {
+    public static User getCurrentUser(){
         ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
         HttpServletRequest request = requestHolder.get();
         User currentUser = (User)request.getAttribute("currentUser");
-        if(null == currentUser){
-            throw new Exception("401");
-        }
         return currentUser;
     }
 
-    public static int getCurrentUserId() throws Exception {
+    public static int getCurrentUserId(){
         return getCurrentUser().getId();
     }
 }

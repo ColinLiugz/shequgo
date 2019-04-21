@@ -46,12 +46,7 @@ public class RegimentalInfoController {
     @ApiOperation(value = "获得当前用户的团长信息")
     @RequestMapping(value = "/regimentalInfo/get", method = RequestMethod.GET)
     public ApiResult getRegimentalInfo(){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         return ApiResult.ok(regimentalInfo);
     }
@@ -59,12 +54,7 @@ public class RegimentalInfoController {
     @ApiOperation(value = "申请成为团长")
     @RequestMapping(value = "/regimentalInfo/add", method = RequestMethod.POST)
     public ApiResult addRegimentalInfo(String realName,String phone,String address,String location){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         if(null != regimentalInfo){
             return ApiResult.error("已经是团长，不能重复申请！");
@@ -83,12 +73,7 @@ public class RegimentalInfoController {
     @ApiOperation(value = "修改团长信息")
     @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
     public ApiResult updateRegimentalInfo(String realName,String phone,String address,String location){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         if(null == regimentalInfo){
             return ApiResult.error("还不是团长，请先申请！");

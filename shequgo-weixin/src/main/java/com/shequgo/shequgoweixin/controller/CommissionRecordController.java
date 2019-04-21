@@ -34,12 +34,7 @@ public class CommissionRecordController {
     @ApiOperation(value = "获得全部团长佣金记录列表")
     @RequestMapping(value = "/userCommissionRecord/list", method = RequestMethod.GET)
     public ApiResult listCommisionRecord(Integer page ,Integer  pageSize){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
+        Integer userId = UserUtil.getCurrentUserId();
         PageModel<CommissionRecord> commissionRecords = commisionRecordFacade.listCommissionRecord(userId,page,pageSize);
         return ApiResult.ok(commissionRecords);
     }
@@ -47,13 +42,7 @@ public class CommissionRecordController {
     @ApiOperation(value = "佣金提现接口")
     @RequestMapping(value = "/userCommission/withdrawal", method = RequestMethod.POST)
     public ApiResult withdrawalCommision(Float amount){
-        Integer userId ;
-        try {
-            userId = UserUtil.getCurrentUserId();
-        } catch (Exception e) {
-            return new ApiResult(401,"未登录");
-        }
-
+        Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = new RegimentalInfo();
         if(regimentalInfo.getCommission().compareTo(BigDecimal.valueOf(amount)) < 0){
             return ApiResult.error("余额不足");
