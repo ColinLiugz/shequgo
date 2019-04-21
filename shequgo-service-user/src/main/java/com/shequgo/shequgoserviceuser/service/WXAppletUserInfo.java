@@ -15,8 +15,8 @@ import java.util.ResourceBundle;
 public class WXAppletUserInfo {
 
     private static final String WEIXINURL = "https://api.weixin.qq.com/sns/jscode2session";
-    private static final String APPID = "";
-    private static final String APPSECRET="";
+    private static final String APPID = "wx5ccee6156267291a";
+    private static final String APPSECRET="97292134e70c59931bfaa253515da92b";
 
     /**
      * 获取微信小程序 session_key 和 openid
