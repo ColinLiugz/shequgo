@@ -54,7 +54,7 @@ public class AdminController {
             return ApiResult.error("不存在的用户");
         }
         String serverCheckCode = (String)redisService.get(phone + "_login");
-        if(!serverCheckCode.equals(checkCode)){
+        if(!checkCode.equals(serverCheckCode)){
             return ApiResult.error("验证码错误！");
         }
         if(!Md5Util.md5(password,admin.getId()+"passWord").equals(admin.getPassword())){
@@ -127,7 +127,7 @@ public class AdminController {
     public ApiResult addAdmin(String name,String phone,String password,String checkCode) throws Exception {
         String adminPhone = UserUtil.getCurrentUser().getPhone();
         String serverCheckCode = (String)redisService.get(adminPhone + "_admin");
-        if(!serverCheckCode.equals(checkCode)){
+        if(!checkCode.equals(serverCheckCode)){
             return ApiResult.error("验证码错误！");
         }
         Integer userId = UserUtil.getCurrentUserId();

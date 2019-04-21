@@ -61,7 +61,7 @@ public class CorsFilter implements Filter {
 
     private boolean isNeedCheckAuth(String uri){
         String[] notNeeds = {"/weixin/login","/weixin/regimentalInfo/list","/weixin/list/sku","/wexin/list/groupBuyingSku",
-                            "/weixin/getOne/sku"};
+                            "/weixin/getOne/sku","/weixin/list/skuCategory"};
         if(uri.startsWith("/weixin/")){
             for(String notNeedUri : notNeeds){
                 if(notNeedUri.equals(uri)){

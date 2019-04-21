@@ -1,6 +1,8 @@
 package com.shequgo.shequgoweixin.util;
 
 import entity.User;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserUtil {
 
     public static User getCurrentUser(){
-        ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<HttpServletRequest>();
-        HttpServletRequest request = requestHolder.get();
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
         User currentUser = (User)request.getAttribute("currentUser");
         return currentUser;
     }
