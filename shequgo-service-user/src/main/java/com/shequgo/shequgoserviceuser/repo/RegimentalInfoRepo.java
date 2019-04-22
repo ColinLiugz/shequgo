@@ -20,6 +20,9 @@ public interface RegimentalInfoRepo extends JpaRepository<RegimentalInfo,Integer
     @Query("select r from RegimentalInfo r where r.isDel=0 and r.status=1 order by r.id desc ")
     List<RegimentalInfo> findAllNotDelAndAllowed();
 
+    @Query("select r from RegimentalInfo r where r.isDel=0")
+    Page<RegimentalInfo> listAll( Pageable pageable);
+
     @Query("select r from RegimentalInfo r where r.status=?1 and r.isDel=0")
     Page<RegimentalInfo> listByStatus(Integer status, Pageable pageable);
 }

@@ -29,10 +29,15 @@ public class RegimentalInfoController {
     @Reference(version = "1.0.0")
     private UserFacade userFacade;
 
-    @ApiOperation(value = "查看团长申请列表")
+    @ApiOperation(value = "查看团长申请列表, status空查全部 0正在审核 1审核通过 2审核失败")
     @RequestMapping(value = "/regimentalInfo/list", method = RequestMethod.GET)
     public ApiResult listRegimental(Integer status,Integer page,Integer pageSize){
-        PageModel<RegimentalInfo> regimentalInfoPage = regimentalInfoFacade.listByStatus(status, page, pageSize);
+        PageModel<RegimentalInfo> regimentalInfoPage;
+        if(null == status){
+            regimentalInfoPage = regimentalInfoFacade.listAll(page,pageSize);
+        }else {
+            regimentalInfoPage = regimentalInfoFacade.listByStatus(status, page, pageSize);
+        }
         return ApiResult.ok(regimentalInfoPage);
     }
 

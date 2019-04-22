@@ -1,8 +1,10 @@
 package entity;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 
 /**
@@ -12,6 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class User extends BaseObject{
     private String openid;
     private String nickName;

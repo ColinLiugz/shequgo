@@ -37,6 +37,10 @@ public class ShoppingCartController {
     @RequestMapping(value = "/skuToShoppingCart/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer skuId,Integer regimentalId){
         Integer userId = UserUtil.getCurrentUserId();
+        Sku sku = skuFacade.findById(skuId);
+        if(sku.getSurplusAmount()==0){
+            return new ApiResult(1001,"库存不足");
+        }
         ShoppingCart shoppingCart = shoppingCartFacade.findByUserIdAndRegimentalAndSkuid(userId,regimentalId,skuId);
         Integer  amount;
         if(null == shoppingCart){
@@ -57,10 +61,13 @@ public class ShoppingCartController {
     @ApiOperation(value = "对购物车中某件商品数量加一")
     @RequestMapping(value = "/shoppingCart/amount/add", method = RequestMethod.POST)
     public ApiResult addSkuToShoppingCart(Integer shoppingCartId){
-        Integer userId = UserUtil.getCurrentUserId();
         ShoppingCart shoppingCart = shoppingCartFacade.findById(shoppingCartId);
         if(shoppingCart == null){
             return ApiResult.error("不存在的购物车记录");
+        }
+        Sku sku = skuFacade.findById(shoppingCart.getSkuId());
+        if(sku.getSurplusAmount()==0){
+            return new ApiResult(1001,"库存不足");
         }
         shoppingCart.setAmount(shoppingCart.getAmount()+1);
         shoppingCart = shoppingCartFacade.save(shoppingCart);

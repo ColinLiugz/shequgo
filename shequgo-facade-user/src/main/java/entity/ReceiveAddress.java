@@ -1,8 +1,10 @@
 package entity;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 
 /**
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "receive_address")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class ReceiveAddress extends BaseObject {
     private Integer userId;
     private String receiveName;

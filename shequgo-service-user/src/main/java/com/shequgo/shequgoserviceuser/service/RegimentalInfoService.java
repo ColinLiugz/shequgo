@@ -36,6 +36,12 @@ public class RegimentalInfoService extends BaseService<RegimentalInfo,Regimental
     }
 
     @Override
+    public PageModel<RegimentalInfo> listAll(Integer page, Integer pageSize){
+        Page<RegimentalInfo> regimentalInfos = repo.listAll(PageRequest.of(page-1,pageSize));
+        return new PageModel<RegimentalInfo>(regimentalInfos.getTotalElements(),regimentalInfos.getContent());
+    }
+
+    @Override
     public PageModel<RegimentalInfo> listByStatus(Integer status, Integer page, Integer pageSize){
         Page<RegimentalInfo> regimentalInfos = repo.listByStatus(status, PageRequest.of(page-1,pageSize));
         return new PageModel<RegimentalInfo>(regimentalInfos.getTotalElements(),regimentalInfos.getContent());

@@ -1,9 +1,11 @@
 package entity;
 
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "regimental_info")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class RegimentalInfo extends BaseObject implements Comparable<RegimentalInfo>{
     private Integer userId;
     private String realName;

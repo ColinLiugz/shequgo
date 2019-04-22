@@ -98,6 +98,21 @@ public class AdminController {
         return ApiResult.ok(admin);
     }
 
+    @ApiOperation(value = "初始化管理员")
+    @RequestMapping(value = "/admin/init", method = RequestMethod.POST)
+    public ApiResult initAdmin() throws Exception {
+        if(null != adminFacade.findByPhone("17853146473")){
+            return ApiResult.error("该手机号已经添加过！");
+        }
+        Admin admin = new Admin();
+        admin.setName("admin刘");
+        admin.setPhone("17853146473");
+        admin = adminFacade.save(admin);
+        admin.setPassword(Md5Util.md5("000000",admin.getId()+"passWord"));
+        adminFacade.save(admin);
+        return ApiResult.ok(admin);
+    }
+
     @ApiOperation(value = "新增管理员")
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
     public ApiResult addAdmin(String name,String phone,String password) throws Exception {
