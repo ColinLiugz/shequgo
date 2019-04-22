@@ -33,7 +33,7 @@ public class RegimentalInfoController {
     @ApiOperation(value = "查看团长列表接口，按距离排序  location为经度#纬度格式")
     @RequestMapping(value = "/regimentalInfo/list", method = RequestMethod.GET)
     public ApiResult listNearbyRegimental(String location){
-        List<RegimentalInfo> regimentalInfos = regimentalInfoFacade.findAllNotDel();
+        List<RegimentalInfo> regimentalInfos = regimentalInfoFacade.findAllNotDelAndAllowed();
         if(StringUtils.isEmpty(location)){
             return ApiResult.ok(regimentalInfos);
         }else {

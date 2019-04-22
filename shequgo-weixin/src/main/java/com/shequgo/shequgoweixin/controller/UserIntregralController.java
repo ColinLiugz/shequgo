@@ -22,7 +22,7 @@ import utils.ApiResult;
 @CrossOrigin
 @RequestMapping(value = "/weixin")
 public class UserIntregralController {
-    @Reference
+    @Reference(version = "1.0.0")
     private IntegralRecordFacade integralRecordFacade;
 
     @ApiOperation(value = "获得全部用户积分记录列表")

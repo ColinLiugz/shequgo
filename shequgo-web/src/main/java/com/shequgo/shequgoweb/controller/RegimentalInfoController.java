@@ -4,7 +4,9 @@ import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweb.filter.UserUtil;
 import entity.RegimentalInfo;
+import entity.User;
 import facade.RegimentalInfoFacade;
+import facade.UserFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +26,8 @@ import utils.ApiResult;
 public class RegimentalInfoController {
     @Reference(version = "1.0.0")
     private RegimentalInfoFacade regimentalInfoFacade;
+    @Reference(version = "1.0.0")
+    private UserFacade userFacade;
 
     @ApiOperation(value = "查看团长申请列表")
     @RequestMapping(value = "/regimentalInfo/list", method = RequestMethod.GET)
@@ -38,6 +42,11 @@ public class RegimentalInfoController {
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(regimentalInfoId);
         regimentalInfo.setStatus(status);
         regimentalInfo = regimentalInfoFacade.save(regimentalInfo);
+        if(status == 1){
+            User user = userFacade.findById(regimentalInfo.getUserId());
+            user.setIsRegimental(1);
+            userFacade.save(user);
+        }
         return ApiResult.ok(regimentalInfo);
     }
 }

@@ -12,6 +12,9 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface SkuRepo extends JpaRepository<Sku,Integer> {
 
+    @Query("select s from Sku s where s.id = ?1 and s.amount > 0 and s.isDel=0")
+    Sku findHasAmountById(Integer skuId);
+
     @Query("select s from Sku s where s.isDel=0 ")
     Page<Sku> listAll(Pageable pageable);
 

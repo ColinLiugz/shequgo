@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface ReceiveAddressRepo extends JpaRepository<ReceiveAddress,Integer>{
 
-    @Query("select r from ReceiveAddress r  where r.userId = ?1 and r.isDefault = 1")
+    @Query("select r from ReceiveAddress r  where r.userId = ?1 and r.isDel = 0 and r.isDefault = 1")
     ReceiveAddress findDefault(Integer userId);
 
-    @Query("select r from ReceiveAddress r where r.userId = ?1 order by r.isDefault desc,r.updateData asc ")
+    @Query("select r from ReceiveAddress r where r.userId = ?1 and r.isDel=0 order by r.isDefault desc,r.updateData asc ")
     List<ReceiveAddress>  listByUser(Integer userId);
 }

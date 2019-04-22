@@ -10,6 +10,7 @@ import entity.Sku;
  */
 public interface SkuFacade extends BaseFacade<Sku>{
 
+    Sku findHasAmountById(Integer skuId);
     PageModel<Sku> listAll(Integer page,Integer pageSize);
     PageModel<Sku> listByCategoryId(Integer categoryId,Integer page,Integer pageSize);
     PageModel<Sku> listByIsShow(Integer isShow,Integer page,Integer pageSize);

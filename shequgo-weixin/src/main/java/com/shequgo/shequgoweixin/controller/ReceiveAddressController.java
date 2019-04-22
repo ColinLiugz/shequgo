@@ -54,7 +54,8 @@ public class ReceiveAddressController {
         if(receiveAddress == null){
             return ApiResult.error("不存在的收货地址！");
         }
-        receiveAddressFacade.delete(receiveAddress);
+        receiveAddress.setIsDel(1);
+        receiveAddressFacade.save(receiveAddress);
         return ApiResult.ok();
     }
 

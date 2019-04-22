@@ -31,8 +31,8 @@ public class RegimentalInfoService extends BaseService<RegimentalInfo,Regimental
     }
 
     @Override
-    public List<RegimentalInfo> findAllNotDel(){
-        return repo.findAllNotDel();
+    public List<RegimentalInfo> findAllNotDelAndAllowed(){
+        return repo.findAllNotDelAndAllowed();
     }
 
     @Override

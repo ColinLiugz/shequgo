@@ -14,7 +14,7 @@ public interface RegimentalInfoFacade extends BaseFacade<RegimentalInfo>{
 
     RegimentalInfo findByUserId(Integer userId);
 
-    List<RegimentalInfo> findAllNotDel();
+    List<RegimentalInfo> findAllNotDelAndAllowed();
 
     PageModel<RegimentalInfo> listByStatus(Integer status, Integer page, Integer pageSize);
 }

@@ -3,7 +3,9 @@ package com.shequgo.shequgoweixin.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.UserUtil;
 import entity.ShoppingCart;
+import entity.Sku;
 import facade.ShoppingCartFacade;
+import facade.SkuFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
+import utils.MapUtil;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Colin
@@ -25,6 +30,8 @@ import java.util.List;
 public class ShoppingCartController {
     @Reference(version = "1.0.0")
     private ShoppingCartFacade shoppingCartFacade;
+    @Reference(version = "1.0.0")
+    private SkuFacade skuFacade;
 
     @ApiOperation(value = "向购物车中添加一件商品，数量为1")
     @RequestMapping(value = "/skuToShoppingCart/add", method = RequestMethod.POST)
@@ -92,6 +99,21 @@ public class ShoppingCartController {
     public ApiResult listSkuToShoppingCart(Integer regimentalId){
         Integer userId = UserUtil.getCurrentUserId();
         List<ShoppingCart> shoppingCartList = shoppingCartFacade.listByUserAndRegimental(userId,regimentalId);
-        return ApiResult.ok(shoppingCartList);
+        List<Map<String,Object>> shoppingCartMapList = new ArrayList<>();
+        shoppingCartList.forEach(shoppingCart -> {
+            Map<String,Object> shoppingCartMap = MapUtil.beanToMap(shoppingCart);
+            Integer skuId = shoppingCart.getSkuId();
+            Sku sku = skuFacade.findHasAmountById(skuId);
+            if(null == sku){
+                shoppingCartMap.put("isSkuHas",1);
+                sku = skuFacade.findById(skuId);
+                shoppingCartMap.put("skuInfo",sku);
+            }else{
+                shoppingCartMap.put("isSkuHas",1);
+                shoppingCartMap.put("skuInfo",sku);
+            }
+            shoppingCartMapList.add(shoppingCartMap);
+        });
+        return ApiResult.ok(shoppingCartMapList);
     }
 }

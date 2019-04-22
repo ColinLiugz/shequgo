@@ -25,6 +25,11 @@ public class SkuService extends BaseService<Sku,SkuRepo> implements SkuFacade{
     }
 
     @Override
+    public Sku findHasAmountById(Integer skuId){
+        return repo.findHasAmountById(skuId);
+    }
+
+    @Override
     public PageModel<Sku> listAll(Integer page,Integer pageSize){
         Page<Sku> skus = repo.listAll(PageRequest.of(page-1,pageSize));
         return new PageModel<Sku>(skus.getTotalElements(),skus.getContent());

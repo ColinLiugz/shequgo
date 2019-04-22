@@ -62,8 +62,8 @@ public class OrderController {
             Integer skuId = Integer.parseInt(skuAndAmountArr[0]);
             Integer amount = Integer.parseInt(skuAndAmountArr[1]);
             Sku sku = skuFacade.findById(skuId);
-            sku.setSoldAmount(sku.getSoldAmount()+1);
-            sku.setSurplusAmount(sku.getSurplusAmount()-1);
+            sku.setSoldAmount(sku.getSoldAmount()+amount);
+            sku.setSurplusAmount(sku.getSurplusAmount()-amount);
             sku = skuFacade.save(sku);
 
             countPrice.add(sku.getPrice().multiply(new BigDecimal(amount)));

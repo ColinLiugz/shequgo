@@ -67,7 +67,8 @@ public class SkuController {
         if(null == sku){
             return ApiResult.error("不存在的商品！");
         }
-        skuFacade.delete(sku);
+        sku.setIsDel(1);
+        skuFacade.save(sku);
         return ApiResult.ok();
     }
 

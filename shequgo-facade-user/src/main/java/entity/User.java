@@ -27,9 +27,9 @@ public class User extends BaseObject{
     private String city;
     private String country;
     /**
-     * 是否是团长
+     * 是否是团长 0否 1是
      */
-    private Integer isRegimental;
+    private Integer isRegimental =0;
     /**
      * 积分
      */
