@@ -4,7 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.DistanceUtil;
 import com.shequgo.shequgoweixin.util.UserUtil;
 import entity.RegimentalInfo;
+import entity.User;
 import facade.RegimentalInfoFacade;
+import facade.UserFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.StringUtils;
@@ -29,6 +31,8 @@ import java.util.List;
 public class RegimentalInfoController {
     @Reference(version = "1.0.0")
     private RegimentalInfoFacade regimentalInfoFacade;
+    @Reference(version = "1.0.0")
+    private UserFacade userFacade;
 
     @ApiOperation(value = "查看团长列表接口，按距离排序  location为经度#纬度格式")
     @RequestMapping(value = "/regimentalInfo/list", method = RequestMethod.GET)
@@ -85,5 +89,17 @@ public class RegimentalInfoController {
         regimentalInfo.setStatus(0);
         regimentalInfo = regimentalInfoFacade.save(regimentalInfo);
         return ApiResult.ok(regimentalInfo);
+    }
+
+    @ApiOperation(value = "撤销团长申请")
+    @RequestMapping(value = "/regimentalInfo/del", method = RequestMethod.POST)
+    public ApiResult delRegimentalInfo(){
+        User user = UserUtil.getCurrentUser();
+        user.setIsRegimental(0);
+        userFacade.save(user);
+        RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(user.getId());
+        regimentalInfo.setIsDel(1);
+        regimentalInfoFacade.save(regimentalInfo);
+        return ApiResult.ok();
     }
 }

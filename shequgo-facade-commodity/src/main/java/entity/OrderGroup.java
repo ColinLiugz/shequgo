@@ -18,6 +18,14 @@ public class OrderGroup extends BaseObject {
     private Integer userId;
     private Integer regimentalId;
     /**
+     * 是否使用积分
+     */
+    private Integer isUseIntegral;
+    /**
+     * 使用积分数量
+     */
+    private Integer usedIntegral;
+    /**
      * 订单编号
      */
     private String orderNo;
@@ -42,8 +50,13 @@ public class OrderGroup extends BaseObject {
      */
     private Integer logisticsType;
     /**
-     * 总支付金额
+     * 总金额
      */
     @Column(columnDefinition = "DECIMAL(19,2) default 0.00")
     private BigDecimal countPrice;
+    /**
+     * 实际支付金额
+     */
+    @Column(columnDefinition = "DECIMAL(19,2) default 0.00")
+    private BigDecimal realPrice;
 }

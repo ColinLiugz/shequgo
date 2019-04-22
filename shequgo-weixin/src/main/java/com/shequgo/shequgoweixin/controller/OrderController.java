@@ -53,6 +53,7 @@ public class OrderController {
         orderGroup.setRegimentalId(regimentalId);
         orderGroup.setOrderNo(getOrderNo(userId));
         orderGroup.setLogisticsType(logisticsType);
+        orderGroup.setIsUseIntegral(isUseIntegral);
         orderGroup = orderGroupFacade.save(orderGroup);
 
         BigDecimal countPrice = new BigDecimal(0);
@@ -62,6 +63,9 @@ public class OrderController {
             Integer skuId = Integer.parseInt(skuAndAmountArr[0]);
             Integer amount = Integer.parseInt(skuAndAmountArr[1]);
             Sku sku = skuFacade.findById(skuId);
+            if(sku.getSurplusAmount() < amount){
+                return new ApiResult(1001,"库存不足");
+            }
             sku.setSoldAmount(sku.getSoldAmount()+amount);
             sku.setSurplusAmount(sku.getSurplusAmount()-amount);
             sku = skuFacade.save(sku);
@@ -77,50 +81,19 @@ public class OrderController {
             orderInfoFacade.save(orderInfo);
         }
         orderGroup.setCountPrice(countPrice);
-        orderGroup = orderGroupFacade.save(orderGroup);
 
+        BigDecimal realPrice = countPrice;
+        // 订单金额减去积分折扣
         if (isUseIntegral == 1){
-            if(countPrice.compareTo(new BigDecimal(user.getIntegral()/100)) == -1 ){
-                countPrice = new BigDecimal(0);
-                IntegralRecord integralRecord = new IntegralRecord();
-                integralRecord.setIntegral(Integer.parseInt(countPrice.toString())*100);
-                integralRecord.setOrderGroupId(orderGroup.getId());
-                integralRecord.setType(0);
-                integralRecord.setUserId(userId);
-                integralRecordFacade.save(integralRecord);
-                user.setIntegral(user.getIntegral() - Integer.parseInt(countPrice.toString())*100);
-                user = userFacade.save(user);
+            // 订单总价小于积分兑换总额时
+            if(countPrice.compareTo(new BigDecimal(user.getIntegral()/100)) < 0 ){
+                realPrice = new BigDecimal(0);
             } else {
-                IntegralRecord integralRecord = new IntegralRecord();
-                integralRecord.setIntegral(user.getIntegral());
-                integralRecord.setOrderGroupId(orderGroup.getId());
-                integralRecord.setType(0);
-                integralRecord.setUserId(userId);
-                integralRecordFacade.save(integralRecord);
-                user.setIntegral(0);
-                user = userFacade.save(user);
-                countPrice = countPrice.subtract(new BigDecimal(user.getIntegral()/100));
+                realPrice = countPrice.subtract(new BigDecimal(user.getIntegral()/100));
             }
         }
-        user.setIntegral(user.getIntegral() + Integer.parseInt(countPrice.toString()) );
-        IntegralRecord integralRecord = new IntegralRecord();
-        integralRecord.setIntegral(user.getIntegral());
-        integralRecord.setOrderGroupId(orderGroup.getId());
-        integralRecord.setType(2);
-        integralRecord.setUserId(userId);
-        integralRecordFacade.save(integralRecord);
-        userFacade.save(user);
-
-        CommissionRecord commissionRecord = new CommissionRecord();
-        commissionRecord.setUserId(userId);
-        commissionRecord.setPrice(countPrice.multiply(new BigDecimal(0.2)));
-        commissionRecord.setStatus(1);
-        commissionRecord.setType(0);
-        commisionRecordFacade.save(commissionRecord);
-
-        RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(regimentalInfoId);
-        regimentalInfo.setCommission(regimentalInfo.getCommission().add(countPrice.multiply(new BigDecimal(0.2))));
-        regimentalInfoFacade.save(regimentalInfo);
+        orderGroup.setRealPrice(realPrice);
+        orderGroup = orderGroupFacade.save(orderGroup);
 
         Map<String,Object> order = new HashMap<String,Object>();
         order.put("orderGroup",orderGroup);
@@ -128,6 +101,50 @@ public class OrderController {
         return ApiResult.ok(order);
     }
 
+    @ApiOperation(value = "用户支付某个订单")
+    @RequestMapping(value = "/order/pay", method = RequestMethod.POST)
+    public ApiResult orderPay(Integer orderGroupId){
+        User user = UserUtil.getCurrentUser();
+        Integer userId = user.getId();
+        OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
+        orderGroup.setPaymentStatus(1);
+        orderGroup.setLogisticsStatus(0);
+        orderGroupFacade.save(orderGroup);
+
+        if (orderGroup.getIsUseIntegral() == 1){
+            // 用户使用积分
+            IntegralRecord integralRecord = new IntegralRecord();
+            integralRecord.setIntegral(orderGroup.getUsedIntegral());
+            integralRecord.setOrderGroupId(orderGroup.getId());
+            integralRecord.setType(2);
+            integralRecord.setUserId(userId);
+            integralRecordFacade.save(integralRecord);
+            user.setIntegral(user.getIntegral() - orderGroup.getUsedIntegral());
+            user = userFacade.save(user);
+        }
+
+
+        IntegralRecord integralRecord = new IntegralRecord();
+        integralRecord.setIntegral(orderGroup.getCountPrice().setScale(0,BigDecimal.ROUND_DOWN).intValue());
+        integralRecord.setOrderGroupId(orderGroup.getId());
+        integralRecord.setType(0);
+        integralRecord.setUserId(userId);
+        integralRecordFacade.save(integralRecord);
+        user.setIntegral(user.getIntegral() + integralRecord.getIntegral() );
+        userFacade.save(user);
+
+        CommissionRecord commissionRecord = new CommissionRecord();
+        commissionRecord.setUserId(userId);
+        commissionRecord.setPrice(orderGroup.getCountPrice().multiply(new BigDecimal(0.2)));
+        commissionRecord.setStatus(1);
+        commissionRecord.setType(0);
+        commisionRecordFacade.save(commissionRecord);
+
+        RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(orderGroup.getRegimentalId());
+        regimentalInfo.setCommission(regimentalInfo.getCommission().add(commissionRecord.getPrice()));
+        regimentalInfoFacade.save(regimentalInfo);
+        return ApiResult.ok();
+    }
 
     @ApiOperation(value = "用户查看订单列表")
     @RequestMapping(value = "/ordinaryOrder/user/list", method = RequestMethod.GET)

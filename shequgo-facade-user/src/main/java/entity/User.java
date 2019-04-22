@@ -33,5 +33,5 @@ public class User extends BaseObject{
     /**
      * 积分
      */
-    private Integer integral;
+    private Integer integral = 0;
 }
