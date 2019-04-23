@@ -70,7 +70,7 @@ public class CommissionRecordController {
         commissionRecord.setUserId(userId);
         commissionRecord.setType(1);
         commissionRecord.setStatus(1);
-        commissionRecord.setPrice(BigDecimal.valueOf(amount));
+        commissionRecord.setPrice(new BigDecimal(amount));
         commisionRecordFacade.save(commissionRecord);
         return ApiResult.ok(regimentalInfo);
     }

@@ -4,7 +4,9 @@ import entity.PageModel;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweixin.util.UserUtil;
 import entity.IntegralRecord;
+import entity.User;
 import facade.IntegralRecordFacade;
+import facade.UserFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
 import utils.MapUtil;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,8 @@ import java.util.Map;
 public class UserIntregralController {
     @Reference(version = "1.0.0")
     private IntegralRecordFacade integralRecordFacade;
+    @Reference(version = "1.0.0")
+    private UserFacade userFacade;
 
     @ApiOperation(value = "获得全部用户积分记录列表")
     @RequestMapping(value = "/userIntegralRecord/list", method = RequestMethod.GET)
@@ -64,5 +69,20 @@ public class UserIntregralController {
         Integer userId = UserUtil.getCurrentUserId();
         PageModel<IntegralRecord> userRecord = integralRecordFacade.listRecordByUseridAndType(userId,1, page,pageSize);
         return ApiResult.ok(userRecord);
+    }
+
+    @ApiOperation(value = "用户分享活动积分")
+    @RequestMapping(value = "/userIntegralUsedRecord/add", method = RequestMethod.GET)
+    public ApiResult  integralUsedRecordAdd(){
+        Integer userId = UserUtil.getCurrentUserId();
+        User user = userFacade.findById(userId);
+        IntegralRecord integralRecord = new IntegralRecord();
+        integralRecord.setIntegral(5);
+        integralRecord.setType(1);
+        integralRecord.setUserId(userId);
+        integralRecordFacade.save(integralRecord);
+        user.setIntegral(user.getIntegral() + 5 );
+        userFacade.save(user);
+        return ApiResult.ok();
     }
 }
