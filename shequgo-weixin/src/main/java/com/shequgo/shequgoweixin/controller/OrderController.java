@@ -109,7 +109,7 @@ public class OrderController {
                 orderGroup.setUsedIntegral(user.getIntegral() - countPrice.multiply(new BigDecimal(100)).intValue());
                 realPrice = new BigDecimal(0);
             } else {
-                orderGroup.setUsedIntegral(user.getIntegral());
+                orderGroup.setUsedIntegral(new BigDecimal(user.getIntegral()/100).intValue()*100);
                 realPrice = countPrice.subtract(new BigDecimal(user.getIntegral()/100));
             }
         }

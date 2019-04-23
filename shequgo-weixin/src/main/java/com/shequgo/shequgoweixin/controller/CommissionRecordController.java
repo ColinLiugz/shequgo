@@ -57,13 +57,13 @@ public class CommissionRecordController {
 
     @ApiOperation(value = "佣金提现接口")
     @RequestMapping(value = "/userCommission/withdrawal", method = RequestMethod.POST)
-    public ApiResult withdrawalCommision(Float amount){
+    public ApiResult withdrawalCommision(String amount){
         Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
-        if(regimentalInfo.getCommission().compareTo(BigDecimal.valueOf(amount)) < 0){
+        if(regimentalInfo.getCommission().compareTo(new BigDecimal(amount)) < 0){
             return ApiResult.error("余额不足");
         }
-        regimentalInfo.setCommission(regimentalInfo.getCommission().subtract(BigDecimal.valueOf(amount)));
+        regimentalInfo.setCommission(regimentalInfo.getCommission().subtract(new BigDecimal(amount)));
         regimentalInfo = regimentalInfoFacade.save(regimentalInfo);
 
         CommissionRecord commissionRecord = new CommissionRecord();
