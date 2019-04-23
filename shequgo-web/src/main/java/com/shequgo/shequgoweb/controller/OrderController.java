@@ -54,7 +54,12 @@ public class OrderController {
                 break;
             }
             case 4: {
-                orderGroups = orderGroupFacade.listByTypes("'1','2','3','4'", page,pageSize);
+                List<Integer> screen = new ArrayList<>();
+                screen.add(1);
+                screen.add(2);
+                screen.add(3);
+                screen.add(4);
+                orderGroups = orderGroupFacade.listByTypes(screen, page,pageSize);
                 break;
             }
             case 5: {

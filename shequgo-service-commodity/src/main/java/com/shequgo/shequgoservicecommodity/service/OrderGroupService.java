@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author: Colin
  * @Date: 2019/3/27 7:39
@@ -36,7 +38,7 @@ public class OrderGroupService extends BaseService<OrderGroup,OrderGroupRepo> im
     }
 
     @Override
-    public PageModel<OrderGroup> listByUserIdAndTypes(Integer userid, String logisticsStatus, Integer page,Integer pageSize){
+    public PageModel<OrderGroup> listByUserIdAndTypes(Integer userid, List<Integer> logisticsStatus, Integer page,Integer pageSize){
         Page<OrderGroup> orderGroups = repo.listByUserIdAndTypes(userid,logisticsStatus,PageRequest.of(page-1,pageSize));
         return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
     }
@@ -54,7 +56,7 @@ public class OrderGroupService extends BaseService<OrderGroup,OrderGroupRepo> im
     }
 
     @Override
-    public PageModel<OrderGroup> listByTypes(String logisticsStatus, Integer page,Integer pageSize){
+    public PageModel<OrderGroup> listByTypes(List<Integer> logisticsStatus, Integer page,Integer pageSize){
         Page<OrderGroup> orderGroups = repo.listByTypes(logisticsStatus,PageRequest.of(page-1,pageSize));
         return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
     }
@@ -66,7 +68,7 @@ public class OrderGroupService extends BaseService<OrderGroup,OrderGroupRepo> im
     }
 
     @Override
-    public PageModel<OrderGroup> listByRegimentalIdAndTypes(Integer regimentalId, String logisticsStatus, Integer page,Integer pageSize){
+    public PageModel<OrderGroup> listByRegimentalIdAndTypes(Integer regimentalId, List<Integer> logisticsStatus, Integer page, Integer pageSize){
         Page<OrderGroup> orderGroups = repo.listByRegimentalIdAndTypes(regimentalId,logisticsStatus,PageRequest.of(page-1,pageSize));
         return new PageModel<>(orderGroups.getTotalElements(),orderGroups.getContent());
     }

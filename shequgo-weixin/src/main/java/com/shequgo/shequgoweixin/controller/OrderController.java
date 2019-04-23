@@ -185,7 +185,12 @@ public class OrderController {
                 break;
             }
             case 4: {
-                orderGroups = orderGroupFacade.listByUserIdAndTypes(userId,"'1','2','3','4'", page,pageSize);
+                List<Integer> screen = new ArrayList<>();
+                screen.add(1);
+                screen.add(2);
+                screen.add(3);
+                screen.add(4);
+                orderGroups = orderGroupFacade.listByUserIdAndTypes(userId,screen, page,pageSize);
                 break;
             }
             case 5: {
@@ -234,7 +239,12 @@ public class OrderController {
                 break;
             }
             case 4: {
-                orderGroups = orderGroupFacade.listByRegimentalIdAndTypes(regimentalId,"'1','2','3','4'", page,pageSize);
+                List<Integer> screen = new ArrayList<>();
+                screen.add(1);
+                screen.add(2);
+                screen.add(3);
+                screen.add(4);
+                orderGroups = orderGroupFacade.listByRegimentalIdAndTypes(regimentalId, screen, page,pageSize);
                 break;
             }
             case 5: {
