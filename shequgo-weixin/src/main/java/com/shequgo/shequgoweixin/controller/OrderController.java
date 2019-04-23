@@ -51,7 +51,7 @@ public class OrderController {
     @RequestMapping(value = "/ordinaryOrder/create", method = RequestMethod.POST)
     public ApiResult createOrdinaryOrder(Integer regimentalId,String skuKeyIdAndAmounts, Integer isUseIntegral, Integer logisticsType, Integer isShoppingCart) throws IOException {
         Integer userId = UserUtil.getCurrentUserId();
-        User user = UserUtil.getCurrentUser();
+        User user = userFacade.findById(userId);
 
         if(!isSkuHasAmount(skuKeyIdAndAmounts)){
             return new ApiResult(1001,"库存不足");
@@ -123,8 +123,8 @@ public class OrderController {
     @ApiOperation(value = "用户支付某个订单")
     @RequestMapping(value = "/order/pay", method = RequestMethod.POST)
     public ApiResult orderPay(Integer orderGroupId){
-        User user = UserUtil.getCurrentUser();
-        Integer userId = user.getId();
+        Integer userId = UserUtil.getCurrentUserId();
+        User user = userFacade.findById(userId);
         OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
         orderGroup.setPaymentStatus(1);
         orderGroup.setLogisticsStatus(0);

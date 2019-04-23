@@ -17,6 +17,7 @@ import utils.ApiResult;
 import utils.MapUtil;
 import utils.Md5Util;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -39,7 +40,8 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String weixinCode,String encryptedData, String iv){
         User user = userFacade.getUserInfoByCode(weixinCode,encryptedData,iv);
-        String userTab = "xiaochengxu" + user.getId() + user.getOpenid();
+        String date = new Date().toString();
+        String userTab = "xiaochengxu" + user.getId() + user.getOpenid() + date;
         String md5str = "";
         try {
             md5str = Md5Util.md5(userTab,user.getId()+"xiaochengxu");
@@ -56,7 +58,8 @@ public class UserController {
     @ApiOperation(value = "获得用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
     public ApiResult  getUserInfo(){
-        User user = UserUtil.getCurrentUser();
+        Integer userId = UserUtil.getCurrentUserId();
+        User user = userFacade.findById(userId);
         return ApiResult.ok(user);
     }
 }

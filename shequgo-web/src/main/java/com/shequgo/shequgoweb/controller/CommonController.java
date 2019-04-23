@@ -1,7 +1,9 @@
 package com.shequgo.shequgoweb.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import entity.Admin;
 import com.shequgo.shequgoweb.filter.UserUtil;
+import facade.AdminFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,14 +22,16 @@ import utils.QiniuUtil;
 @CrossOrigin
 @RequestMapping(value = "/web")
 public class CommonController {
-
+    @Reference(version = "1.0.0")
+    private AdminFacade adminFacade;
 
     @ApiOperation(value = "获得七牛云token")
     @RequestMapping(value = "/get/qiniuToken", method = RequestMethod.POST)
     public ApiResult getQiniuToken(){
         Admin admin ;
         try {
-            admin = UserUtil.getCurrentUser();
+            Integer userId = UserUtil.getCurrentUserId();
+            admin = adminFacade.findById(userId);
         } catch (Exception e) {
             return new ApiResult(401,"未登录");
         }

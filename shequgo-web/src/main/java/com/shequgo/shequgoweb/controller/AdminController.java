@@ -19,6 +19,7 @@ import utils.MapUtil;
 import utils.Md5Util;
 import utils.SmsUtil;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,8 @@ public class AdminController {
         if(!Md5Util.md5(password,admin.getId()+"passWord").equals(admin.getPassword())){
             return ApiResult.error("密码错误");
         }
-        String userTab = "web" + admin.getId();
+        String date = new Date().toString();
+        String userTab = "web" + admin.getId() + date;
         String md5str = "";
         try {
             md5str = Md5Util.md5(userTab,admin.getId()+"web");
@@ -77,7 +79,8 @@ public class AdminController {
     @ApiOperation(value = "用户登出")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ApiResult userLogin(){
-        Admin admin = UserUtil.getCurrentUser();
+        Integer userId = UserUtil.getCurrentUserId();
+        Admin admin = adminFacade.findById(userId);
         String userTab = "web" + admin.getId();
         String md5str="";
         try {
@@ -131,7 +134,9 @@ public class AdminController {
     @ApiOperation(value = "给当前管理员发送验证码")
     @RequestMapping(value = "/send/checkCode/admin", method = RequestMethod.POST)
     public ApiResult sendAdminCheckCode(){
-        String phone = UserUtil.getCurrentUser().getPhone();
+        Integer userId = UserUtil.getCurrentUserId();
+        Admin admin = adminFacade.findById(userId);
+        String phone = admin.getPhone();
         String checkCode = SmsUtil.sendCheckCode(phone);
         redisService.set(phone + "_admin",checkCode,300);
         return ApiResult.ok();
@@ -140,13 +145,13 @@ public class AdminController {
     @ApiOperation(value = "修改管理员信息")
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
     public ApiResult addAdmin(String name,String phone,String password,String checkCode) throws Exception {
-        String adminPhone = UserUtil.getCurrentUser().getPhone();
+        Integer userId = UserUtil.getCurrentUserId();
+        Admin admin = adminFacade.findById(userId);
+        String adminPhone = admin.getPhone();
         String serverCheckCode = (String)redisService.get(adminPhone + "_admin");
         if(!checkCode.equals(serverCheckCode)){
             return ApiResult.error("验证码错误！");
         }
-        Integer userId = UserUtil.getCurrentUserId();
-        Admin admin = adminFacade.findById(userId);
         admin.setName(name);
         admin.setPhone(phone);
         admin.setPassword(Md5Util.md5(password,admin.getId()+"passWord"));

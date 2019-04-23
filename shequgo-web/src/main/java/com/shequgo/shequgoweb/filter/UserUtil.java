@@ -12,14 +12,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UserUtil {
 
-    public static Admin getCurrentUser() {
+    public static int getCurrentUserId(){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
         Admin currentUser = (Admin)request.getAttribute("currentUser");
-        return currentUser;
-    }
-
-    public static int getCurrentUserId(){
-        return getCurrentUser().getId();
+        return currentUser.getId();
     }
 }

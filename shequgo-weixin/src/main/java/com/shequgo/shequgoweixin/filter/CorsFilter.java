@@ -52,8 +52,6 @@ public class CorsFilter implements Filter {
                 return;
             }else {
                 User user = (User)redisService.get(authorization);
-                user = new UserUtil().getUser(user.getId());
-                redisService.set(authorization,user);
                 request.setAttribute("currentUser",user);
             }
         }

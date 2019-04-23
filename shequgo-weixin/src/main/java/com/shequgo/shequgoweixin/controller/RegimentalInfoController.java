@@ -95,7 +95,8 @@ public class RegimentalInfoController {
     @ApiOperation(value = "撤销团长申请")
     @RequestMapping(value = "/regimentalInfo/del", method = RequestMethod.POST)
     public ApiResult delRegimentalInfo(){
-        User user = UserUtil.getCurrentUser();
+        Integer userId = UserUtil.getCurrentUserId();
+        User user = userFacade.findById(userId);
         user.setIsRegimental(0);
         userFacade.save(user);
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(user.getId());
