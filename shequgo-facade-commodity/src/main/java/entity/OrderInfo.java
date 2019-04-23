@@ -26,5 +26,9 @@ public class OrderInfo extends BaseObject {
      */
     @Column(columnDefinition = "DECIMAL(19,2) default 0.00")
     private BigDecimal unitPrice;
+    /**
+     * 商品快照
+     */
+    @Column(length = 5000)
     private String skuImage;
 }

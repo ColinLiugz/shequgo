@@ -43,6 +43,9 @@ public class ReceiveAddressController {
         receiveAddress.setReceivePhone(receivePhone);
         receiveAddress.setAddress(address);
         receiveAddress.setIsDefault(isDefault);
+        if(receiveAddressFacade.findDefault(userId) == null){
+            receiveAddress.setIsDefault(1);
+        }
         receiveAddress= receiveAddressFacade.save(receiveAddress);
         return ApiResult.ok(receiveAddress);
     }

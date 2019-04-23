@@ -64,6 +64,7 @@ public class RegimentalInfoController {
             return ApiResult.error("已经是团长，不能重复申请！");
         }
         regimentalInfo = new RegimentalInfo();
+        regimentalInfo.setUserId(userId);
         regimentalInfo.setRealName(realName);
         regimentalInfo.setPhone(phone);
         regimentalInfo.setAddress(address);

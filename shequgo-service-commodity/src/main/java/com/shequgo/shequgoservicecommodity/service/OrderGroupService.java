@@ -30,8 +30,32 @@ public class OrderGroupService extends BaseService<OrderGroup,OrderGroupRepo> im
     }
 
     @Override
+    public PageModel<OrderGroup> listByUserId(Integer userid, Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listByUserId(userid,PageRequest.of(page-1,pageSize));
+        return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
+    public PageModel<OrderGroup> listByUserIdAndTypes(Integer userid, String logisticsStatus, Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listByUserIdAndTypes(userid,logisticsStatus,PageRequest.of(page-1,pageSize));
+        return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
     public PageModel<OrderGroup> listByUserIdAndType(Integer userid, Integer logisticsStatus, Integer page,Integer pageSize){
         Page<OrderGroup> orderGroups = repo.listByUserIdAndType(userid,logisticsStatus,PageRequest.of(page-1,pageSize));
+        return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
+    public PageModel<OrderGroup> listAll(Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listAll(PageRequest.of(page-1,pageSize));
+        return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
+    public PageModel<OrderGroup> listByTypes(String logisticsStatus, Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listByTypes(logisticsStatus,PageRequest.of(page-1,pageSize));
         return new PageModel<OrderGroup>(orderGroups.getTotalElements(),orderGroups.getContent());
     }
 

@@ -21,6 +21,10 @@ public class OrderGroup extends BaseObject {
     private Integer userId;
     private Integer regimentalId;
     /**
+     * 商品数量
+     */
+    private Integer countAmount;
+    /**
      * 是否使用积分
      */
     private Integer isUseIntegral;
@@ -45,13 +49,18 @@ public class OrderGroup extends BaseObject {
      */
     private Integer paymentStatus = 0;
     /**
-     * 物流状态 -1待支付 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收
+     * 物流状态 -1待支付 0待发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收
      */
     private Integer logisticsStatus = -1;
     /**
      * 物流类型 0送货上门 1自提
      */
     private Integer logisticsType;
+    /**
+     *  收货地址（快照）
+     */
+    @Column(length = 5000)
+    private String receiveAddress;
     /**
      * 总金额
      */

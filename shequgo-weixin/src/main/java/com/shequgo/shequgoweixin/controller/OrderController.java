@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
+import utils.MapUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,10 +42,14 @@ public class OrderController {
     private CommisionRecordFacade commisionRecordFacade;
     @Reference(version = "1.0.0")
     private RegimentalInfoFacade  regimentalInfoFacade;
+    @Reference(version = "1.0.0")
+    private ShoppingCartFacade shoppingCartFacade;
+    @Reference(version = "1.0.0")
+    private ReceiveAddressFacade receiveAddressFacade;
 
     @ApiOperation(value = "创建普通订单，skuKeyIdAndAmounts是 skuid@amount#skuid@amount 格式")
     @RequestMapping(value = "/ordinaryOrder/create", method = RequestMethod.POST)
-    public ApiResult createOrdinaryOrder(Integer regimentalId,String skuKeyIdAndAmounts, Integer isUseIntegral, Integer logisticsType,Integer regimentalInfoId) throws IOException {
+    public ApiResult createOrdinaryOrder(Integer regimentalId,String skuKeyIdAndAmounts, Integer isUseIntegral, Integer logisticsType, Integer isShoppingCart) throws IOException {
         Integer userId = UserUtil.getCurrentUserId();
         User user = UserUtil.getCurrentUser();
 
@@ -54,9 +59,11 @@ public class OrderController {
         orderGroup.setOrderNo(getOrderNo(userId));
         orderGroup.setLogisticsType(logisticsType);
         orderGroup.setIsUseIntegral(isUseIntegral);
+        orderGroup.setReceiveAddress(MapUtil.beanToMap(receiveAddressFacade.findDefault(userId)).toString());
         orderGroup = orderGroupFacade.save(orderGroup);
 
         BigDecimal countPrice = new BigDecimal(0);
+        Integer countAmount = 0;
         String[] skuArr = skuKeyIdAndAmounts.split("#");
         for(String skuAmount : skuArr){
             String[] skuAndAmountArr = skuAmount.split("@");
@@ -70,7 +77,10 @@ public class OrderController {
             sku.setSurplusAmount(sku.getSurplusAmount()-amount);
             sku = skuFacade.save(sku);
 
-            countPrice.add(sku.getPrice().multiply(new BigDecimal(amount)));
+            System.out.println("======前"+countPrice.toString());
+            countAmount = countAmount + amount;
+            countPrice.add(sku.getDiscountPrice().multiply(new BigDecimal(amount)));
+            System.out.println("======后"+countPrice.toString());
 
             OrderInfo orderInfo = new OrderInfo();
             orderInfo.setOrderGroupId(orderGroup.getId());
@@ -79,7 +89,17 @@ public class OrderController {
             orderInfo.setUnitPrice(sku.getDiscountPrice());
             orderInfo.setSkuImage(JSON.json(sku));
             orderInfoFacade.save(orderInfo);
+
+            // 删除购物车里的
+            if(isShoppingCart == 1){
+                ShoppingCart shoppingCart = shoppingCartFacade.findByUserIdAndRegimentalAndSkuid(userId,regimentalId,skuId);
+                if(null != shoppingCart){
+                    shoppingCart.setIsDel(1);
+                    shoppingCartFacade.save(shoppingCart);
+                }
+            }
         }
+        orderGroup.setCountAmount(countAmount);
         orderGroup.setCountPrice(countPrice);
 
         BigDecimal realPrice = countPrice;
@@ -146,16 +166,44 @@ public class OrderController {
         return ApiResult.ok();
     }
 
-    @ApiOperation(value = "用户查看订单列表")
+    @ApiOperation(value = "用户查看订单列表 logisticsStatus: 1全部 2未支付 3待发货 4待收货 5已签收")
     @RequestMapping(value = "/ordinaryOrder/user/list", method = RequestMethod.GET)
     public ApiResult listOrderByType(Integer logisticsStatus,Integer page,Integer pageSize){
         Integer userId = UserUtil.getCurrentUserId();
         List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
-        PageModel<OrderGroup> orderGroups = orderGroupFacade.listByUserIdAndType(userId,logisticsStatus, page,pageSize);
+        PageModel<OrderGroup> orderGroups = new PageModel<>();
+        switch (logisticsStatus){
+            case 1: {
+                orderGroups = orderGroupFacade.listByUserId(userId, page,pageSize);
+                break;
+            }
+            case 2: {
+                orderGroups = orderGroupFacade.listByUserIdAndType(userId,-1, page,pageSize);
+                break;
+            }
+            case 3: {
+                orderGroups = orderGroupFacade.listByUserIdAndType(userId,0, page,pageSize);
+                break;
+            }
+            case 4: {
+                orderGroups = orderGroupFacade.listByUserIdAndTypes(userId,"1,2,3,4", page,pageSize);
+                break;
+            }
+            case 5: {
+                orderGroups = orderGroupFacade.listByUserIdAndType(userId,5, page,pageSize);
+                break;
+            }
+            default:
+        }
         for(OrderGroup orderGroup : orderGroups.getContent()){
             List<OrderInfo> orderInfos = orderInfoFacade.listOrderInfoByOrderGroupId(orderGroup.getId());
+            RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(orderGroup.getRegimentalId());
             Map<String,Object> order = new HashMap<>();
-            order.put("orderGroup",orderGroup);
+            order.put("regimentalInfo",regimentalInfo);
+            Map<String,Object> orderGroupInfo = MapUtil.beanToMap(orderGroup);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            orderGroupInfo.put("createData",sdf.format(orderGroup.getCreateData()));
+            order.put("orderGroup",orderGroupInfo);
             order.put("orderInfoList",orderInfos);
             orderList.add(order);
         }

@@ -41,7 +41,7 @@ public class RegimentalInfoController {
         return ApiResult.ok(regimentalInfoPage);
     }
 
-    @ApiOperation(value = "审批团长申请列表")
+    @ApiOperation(value = "审批团长申请列表 1通过 2不通过")
     @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
     public ApiResult listRegimental(Integer regimentalInfoId ,Integer status){
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findById(regimentalInfoId);
