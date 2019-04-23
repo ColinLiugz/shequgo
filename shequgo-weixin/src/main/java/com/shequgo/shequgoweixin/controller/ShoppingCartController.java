@@ -66,10 +66,10 @@ public class ShoppingCartController {
             return ApiResult.error("不存在的购物车记录");
         }
         Sku sku = skuFacade.findById(shoppingCart.getSkuId());
-        if(sku.getSurplusAmount()==0){
+        shoppingCart.setAmount(shoppingCart.getAmount()+1);
+        if(shoppingCart.getAmount() > sku.getSurplusAmount()){
             return new ApiResult(1001,"库存不足");
         }
-        shoppingCart.setAmount(shoppingCart.getAmount()+1);
         shoppingCart = shoppingCartFacade.save(shoppingCart);
         return ApiResult.ok(shoppingCart);
     }
