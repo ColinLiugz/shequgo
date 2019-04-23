@@ -53,6 +53,10 @@ public class OrderController {
         Integer userId = UserUtil.getCurrentUserId();
         User user = UserUtil.getCurrentUser();
 
+        if(!isSkuHasAmount(skuKeyIdAndAmounts)){
+            return new ApiResult(1001,"库存不足");
+        }
+
         OrderGroup orderGroup = new OrderGroup();
         orderGroup.setUserId(userId);
         orderGroup.setRegimentalId(regimentalId);
@@ -70,9 +74,6 @@ public class OrderController {
             Integer skuId = Integer.parseInt(skuAndAmountArr[0]);
             Integer amount = Integer.parseInt(skuAndAmountArr[1]);
             Sku sku = skuFacade.findById(skuId);
-            if(sku.getSurplusAmount() < amount){
-                return new ApiResult(1001,"库存不足");
-            }
             sku.setSoldAmount(sku.getSoldAmount()+amount);
             sku.setSurplusAmount(sku.getSurplusAmount()-amount);
             sku = skuFacade.save(sku);
@@ -293,6 +294,20 @@ public class OrderController {
             result+=random.nextInt(10);
         }
         return date+(userid+1001)+result;
+    }
+
+    private boolean isSkuHasAmount(String skuKeyIdAndAmounts){
+        String[] skuArr = skuKeyIdAndAmounts.split("#");
+        for(String skuAmount : skuArr) {
+            String[] skuAndAmountArr = skuAmount.split("@");
+            Integer skuId = Integer.parseInt(skuAndAmountArr[0]);
+            Integer amount = Integer.parseInt(skuAndAmountArr[1]);
+            Sku sku = skuFacade.findById(skuId);
+            if (sku.getIsDel()==1 || sku.getIsShow() == 0 || sku.getSurplusAmount() < amount) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

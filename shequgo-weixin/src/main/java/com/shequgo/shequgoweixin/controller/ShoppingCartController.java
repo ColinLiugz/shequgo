@@ -38,7 +38,7 @@ public class ShoppingCartController {
     public ApiResult addSkuToShoppingCart(Integer skuId,Integer regimentalId){
         Integer userId = UserUtil.getCurrentUserId();
         Sku sku = skuFacade.findById(skuId);
-        if(sku.getSurplusAmount()==0){
+        if(sku.getIsDel()==1 || sku.getIsShow() == 0 || sku.getSurplusAmount()==0){
             return new ApiResult(1001,"库存不足");
         }
         ShoppingCart shoppingCart = shoppingCartFacade.findByUserIdAndRegimentalAndSkuid(userId,regimentalId,skuId);
@@ -67,7 +67,7 @@ public class ShoppingCartController {
         }
         Sku sku = skuFacade.findById(shoppingCart.getSkuId());
         shoppingCart.setAmount(shoppingCart.getAmount()+1);
-        if(shoppingCart.getAmount() > sku.getSurplusAmount()){
+        if(sku.getIsDel()==1 || sku.getIsShow() == 0 || shoppingCart.getAmount() > sku.getSurplusAmount()){
             return new ApiResult(1001,"库存不足");
         }
         shoppingCart = shoppingCartFacade.save(shoppingCart);
@@ -110,10 +110,9 @@ public class ShoppingCartController {
         shoppingCartList.forEach(shoppingCart -> {
             Map<String,Object> shoppingCartMap = MapUtil.beanToMap(shoppingCart);
             Integer skuId = shoppingCart.getSkuId();
-            Sku sku = skuFacade.findHasAmountById(skuId);
-            if(null == sku){
-                shoppingCartMap.put("isSkuHas",1);
-                sku = skuFacade.findById(skuId);
+            Sku sku = skuFacade.findById(skuId);
+            if(null == sku || sku.getIsDel()==1 || sku.getIsShow() == 0 || sku.getSurplusAmount() ==0){
+                shoppingCartMap.put("isSkuHas",0);
                 shoppingCartMap.put("skuInfo",sku);
             }else{
                 shoppingCartMap.put("isSkuHas",1);
