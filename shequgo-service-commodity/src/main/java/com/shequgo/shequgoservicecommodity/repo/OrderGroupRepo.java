@@ -30,6 +30,12 @@ public interface OrderGroupRepo extends JpaRepository<OrderGroup,Integer> {
     @Query("select o from OrderGroup o where o.logisticsStatus=?1 and o.isDel =0 order by o.id desc")
     Page<OrderGroup> listByType(Integer logisticsStatus, Pageable pageable);
 
+    @Query("select o from OrderGroup o where o.regimentalId = ?1 and o.isDel =0 order by o.id desc")
+    Page<OrderGroup> listByRegimentalId(Integer regimentalId, Pageable pageable);
+
+    @Query("select o from OrderGroup o where o.regimentalId = ?1 and o.logisticsStatus in ?2 and o.isDel =0 order by o.id desc")
+    Page<OrderGroup> listByRegimentalIdAndTypes(Integer regimentalId, String logisticsStatus, Pageable pageable);
+
     @Query("select o from OrderGroup o where o.regimentalId = ?1 and o.logisticsStatus=?2 and o.isDel =0 order by o.id desc")
     Page<OrderGroup> listByRegimentalIdAndType(Integer regimentalId, Integer logisticsStatus, Pageable pageable);
 }

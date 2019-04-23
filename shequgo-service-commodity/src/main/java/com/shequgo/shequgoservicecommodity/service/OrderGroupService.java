@@ -60,6 +60,18 @@ public class OrderGroupService extends BaseService<OrderGroup,OrderGroupRepo> im
     }
 
     @Override
+    public PageModel<OrderGroup> listByRegimentalId(Integer regimentalId, Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listByRegimentalId(regimentalId,PageRequest.of(page-1,pageSize));
+        return new PageModel<>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
+    public PageModel<OrderGroup> listByRegimentalIdAndTypes(Integer regimentalId, String logisticsStatus, Integer page,Integer pageSize){
+        Page<OrderGroup> orderGroups = repo.listByRegimentalIdAndTypes(regimentalId,logisticsStatus,PageRequest.of(page-1,pageSize));
+        return new PageModel<>(orderGroups.getTotalElements(),orderGroups.getContent());
+    }
+
+    @Override
     public PageModel<OrderGroup> listByRegimentalIdAndType(Integer regimentalId, Integer logisticsStatus, Integer page,Integer pageSize){
         Page<OrderGroup> orderGroups = repo.listByRegimentalIdAndType(regimentalId,logisticsStatus,PageRequest.of(page-1,pageSize));
         return new PageModel<>(orderGroups.getTotalElements(),orderGroups.getContent());

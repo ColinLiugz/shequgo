@@ -77,10 +77,8 @@ public class OrderController {
             sku.setSurplusAmount(sku.getSurplusAmount()-amount);
             sku = skuFacade.save(sku);
 
-            System.out.println("======前"+countPrice.toString());
             countAmount = countAmount + amount;
-            countPrice.add(sku.getDiscountPrice().multiply(new BigDecimal(amount)));
-            System.out.println("======后"+countPrice.toString());
+            countPrice = countPrice.add(sku.getDiscountPrice().multiply(new BigDecimal(amount)));
 
             OrderInfo orderInfo = new OrderInfo();
             orderInfo.setOrderGroupId(orderGroup.getId());
@@ -186,14 +184,14 @@ public class OrderController {
                 break;
             }
             case 4: {
-                orderGroups = orderGroupFacade.listByUserIdAndTypes(userId,"1,2,3,4", page,pageSize);
+                orderGroups = orderGroupFacade.listByUserIdAndTypes(userId,"'1','2','3','4'", page,pageSize);
                 break;
             }
             case 5: {
                 orderGroups = orderGroupFacade.listByUserIdAndType(userId,5, page,pageSize);
                 break;
             }
-            default:
+            default: orderGroups = orderGroupFacade.listByUserId(userId, page,pageSize);
         }
         for(OrderGroup orderGroup : orderGroups.getContent()){
             List<OrderInfo> orderInfos = orderInfoFacade.listOrderInfoByOrderGroupId(orderGroup.getId());
@@ -213,13 +211,37 @@ public class OrderController {
         return ApiResult.ok(orderPage);
     }
 
-    @ApiOperation(value = "团长查看订单列表")
+    @ApiOperation(value = "团长查看订单列表 logisticsStatus: 1全部 2未支付 3待发货 4待收货 5已签收")
     @RequestMapping(value = "/ordinaryOrder/regimental/list", method = RequestMethod.GET)
     public ApiResult listOrderByRegimental(Integer logisticsStatus,Integer page,Integer pageSize){
         Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
+        Integer regimentalId = regimentalInfo.getId();
         List<Map<String,Object>> orderList = new ArrayList<Map<String,Object>>();
-        PageModel<OrderGroup> orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalInfo.getId(),logisticsStatus,page,pageSize);
+        PageModel<OrderGroup> orderGroups = new PageModel<>();
+        switch (logisticsStatus){
+            case 1: {
+                orderGroups = orderGroupFacade.listByRegimentalId(regimentalId, page,pageSize);
+                break;
+            }
+            case 2: {
+                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,-1, page,pageSize);
+                break;
+            }
+            case 3: {
+                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,0, page,pageSize);
+                break;
+            }
+            case 4: {
+                orderGroups = orderGroupFacade.listByRegimentalIdAndTypes(regimentalId,"'1','2','3','4'", page,pageSize);
+                break;
+            }
+            case 5: {
+                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,5, page,pageSize);
+                break;
+            }
+            default: orderGroups = orderGroupFacade.listByRegimentalId(regimentalId, page,pageSize);
+        }
         for(OrderGroup orderGroup : orderGroups.getContent()){
             List<OrderInfo> orderInfos = orderInfoFacade.listOrderInfoByOrderGroupId(orderGroup.getId());
             Map<String,Object> order = new HashMap<>();

@@ -54,14 +54,14 @@ public class OrderController {
                 break;
             }
             case 4: {
-                orderGroups = orderGroupFacade.listByTypes("1,2,3,4", page,pageSize);
+                orderGroups = orderGroupFacade.listByTypes("'1','2','3','4'", page,pageSize);
                 break;
             }
             case 5: {
                 orderGroups = orderGroupFacade.listByType(5, page,pageSize);
                 break;
             }
-            default:
+            default: orderGroups = orderGroupFacade.listAll(page,pageSize);
         }
         for(OrderGroup orderGroup : orderGroups.getContent()){
             List<OrderInfo> orderInfos = orderInfoFacade.listOrderInfoByOrderGroupId(orderGroup.getId());

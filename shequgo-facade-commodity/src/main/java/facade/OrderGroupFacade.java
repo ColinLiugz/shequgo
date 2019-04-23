@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
  */
 public interface OrderGroupFacade extends BaseFacade<OrderGroup> {
 
-    PageModel<OrderGroup> listByType(Integer logisticsStatus, Integer page, Integer pageSize);
-
     PageModel<OrderGroup> listByUserId(Integer userid, Integer page,Integer pageSize);
 
     PageModel<OrderGroup> listByUserIdAndTypes(Integer userid, String logisticsStatus, Integer page,Integer pageSize);
@@ -22,7 +20,13 @@ public interface OrderGroupFacade extends BaseFacade<OrderGroup> {
 
     PageModel<OrderGroup> listAll(Integer page,Integer pageSize);
 
+    PageModel<OrderGroup> listByType(Integer logisticsStatus, Integer page, Integer pageSize);
+
     PageModel<OrderGroup> listByTypes(String logisticsStatus, Integer page,Integer pageSize);
+
+    PageModel<OrderGroup> listByRegimentalId(Integer regimentalId, Integer page,Integer pageSize);
+
+    PageModel<OrderGroup> listByRegimentalIdAndTypes(Integer regimentalId, String logisticsStatus, Integer page,Integer pageSize);
 
     PageModel<OrderGroup> listByRegimentalIdAndType(Integer regimentalId, Integer logisticsStatus, Integer page,Integer pageSize);
 }
