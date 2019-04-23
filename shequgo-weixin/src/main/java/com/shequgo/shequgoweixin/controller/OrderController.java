@@ -234,7 +234,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "团长修改订单状态 0未发货 1商家发货 2到达团长点 3等待自提 4团长配送中 5已签收")
-    @RequestMapping(value = "/ordinaryOrder/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/ordinaryOrder/regimental/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
         Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
@@ -243,6 +243,20 @@ public class OrderController {
             return ApiResult.error("不存在的订单");
         }else {
             orderGroup.setLogisticsType(status);
+            orderGroupFacade.save(orderGroup);
+            return ApiResult.ok(orderGroup);
+        }
+    }
+
+    @ApiOperation(value = "用户签收")
+    @RequestMapping(value = "/ordinaryOrder/user/receive", method = RequestMethod.POST)
+    public ApiResult listOrderByRegimental(Integer orderGroupId){
+        Integer userId = UserUtil.getCurrentUserId();
+        OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
+        if(orderGroup == null){
+            return ApiResult.error("不存在的订单");
+        }else {
+            orderGroup.setLogisticsType(5);
             orderGroupFacade.save(orderGroup);
             return ApiResult.ok(orderGroup);
         }
