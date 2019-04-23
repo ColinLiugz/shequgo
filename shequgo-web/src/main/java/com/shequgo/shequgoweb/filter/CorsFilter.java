@@ -1,6 +1,8 @@
 package com.shequgo.shequgoweb.filter;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import entity.Admin;
+import facade.AdminFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ import java.io.IOException;
 public class CorsFilter implements Filter {
     @Autowired
     private RedisService redisService;
+    @Reference(version = "1.0.0")
+    private AdminFacade adminFacade;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println(">>>>>>>>>>>>filter init<<<<<<<<<<<<");
@@ -50,6 +54,8 @@ public class CorsFilter implements Filter {
                 return;
             }else {
                 Admin admin = (Admin)redisService.get(authorization);
+                admin = adminFacade.findById(admin.getId());
+                redisService.set(authorization,admin);
                 request.setAttribute("currentUser",admin);
             }
         }
