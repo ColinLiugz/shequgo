@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
+import utils.MapUtil;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Colin
@@ -36,14 +42,24 @@ public class CommissionRecordController {
     public ApiResult listCommisionRecord(Integer page ,Integer  pageSize){
         Integer userId = UserUtil.getCurrentUserId();
         PageModel<CommissionRecord> commissionRecords = commisionRecordFacade.listCommissionRecord(userId,page,pageSize);
-        return ApiResult.ok(commissionRecords);
+        Map<String,Object> resultMap = new HashMap<>();
+        List<Map<String,Object>> commissionList = new ArrayList<>();
+        commissionRecords.getContent().forEach(commission -> {
+            Map<String,Object> commissionInfo = MapUtil.beanToMap(commission);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            commissionInfo.put("createData",sdf.format(commission.getCreateData()));
+            commissionList.add(commissionInfo);
+        });
+        resultMap.put("content",commissionList);
+        resultMap.put("totalElements",commissionRecords.getTotalElements());
+        return ApiResult.ok(resultMap);
     }
 
     @ApiOperation(value = "佣金提现接口")
     @RequestMapping(value = "/userCommission/withdrawal", method = RequestMethod.POST)
     public ApiResult withdrawalCommision(Float amount){
         Integer userId = UserUtil.getCurrentUserId();
-        RegimentalInfo regimentalInfo = new RegimentalInfo();
+        RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         if(regimentalInfo.getCommission().compareTo(BigDecimal.valueOf(amount)) < 0){
             return ApiResult.error("余额不足");
         }

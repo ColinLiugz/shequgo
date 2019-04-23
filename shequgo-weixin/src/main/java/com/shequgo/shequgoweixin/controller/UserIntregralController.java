@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import utils.ApiResult;
+import utils.MapUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Colin
@@ -30,7 +37,17 @@ public class UserIntregralController {
     public ApiResult listIntegralRecord(Integer page,Integer pageSize){
         Integer userId = UserUtil.getCurrentUserId();
         PageModel  <IntegralRecord> integralRecords = integralRecordFacade.listRecord(userId,page,pageSize);
-        return ApiResult.ok(integralRecords);
+        Map<String,Object> resultMap = new HashMap<>();
+        List<Map<String,Object>> integralRecordList = new ArrayList<>();
+        integralRecords.getContent().forEach(integralRecord -> {
+            Map<String,Object> integralRecordInfo = MapUtil.beanToMap(integralRecord);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            integralRecordInfo.put("createData",sdf.format(integralRecord.getCreateData()));
+            integralRecordList.add(integralRecordInfo);
+        });
+        resultMap.put("content",integralRecordList);
+        resultMap.put("totalElements",integralRecords.getTotalElements());
+        return ApiResult.ok(resultMap);
     }
 
     @ApiOperation(value = "获得用户积分增加记录列表")

@@ -106,8 +106,10 @@ public class OrderController {
         if (isUseIntegral == 1){
             // 订单总价小于积分兑换总额时
             if(countPrice.compareTo(new BigDecimal(user.getIntegral()/100)) < 0 ){
+                orderGroup.setUsedIntegral(user.getIntegral() - countPrice.multiply(new BigDecimal(100)).intValue());
                 realPrice = new BigDecimal(0);
             } else {
+                orderGroup.setUsedIntegral(user.getIntegral());
                 realPrice = countPrice.subtract(new BigDecimal(user.getIntegral()/100));
             }
         }
@@ -217,7 +219,7 @@ public class OrderController {
         return ApiResult.ok(orderPage);
     }
 
-    @ApiOperation(value = "团长查看订单列表 logisticsStatus: 1全部 2未支付 3待发货 4待收货 5已签收")
+    @ApiOperation(value = "团长查看订单列表 logisticsStatus: 1全部 2待接收 3派送中 4已签收")
     @RequestMapping(value = "/ordinaryOrder/regimental/list", method = RequestMethod.GET)
     public ApiResult listOrderByRegimental(Integer logisticsStatus,Integer page,Integer pageSize){
         Integer userId = UserUtil.getCurrentUserId();
@@ -231,23 +233,17 @@ public class OrderController {
                 break;
             }
             case 2: {
-                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,-1, page,pageSize);
+                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,1, page,pageSize);
                 break;
             }
             case 3: {
-                orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,0, page,pageSize);
-                break;
-            }
-            case 4: {
                 List<Integer> screen = new ArrayList<>();
-                screen.add(1);
-                screen.add(2);
                 screen.add(3);
                 screen.add(4);
                 orderGroups = orderGroupFacade.listByRegimentalIdAndTypes(regimentalId, screen, page,pageSize);
                 break;
             }
-            case 5: {
+            case 4: {
                 orderGroups = orderGroupFacade.listByRegimentalIdAndType(regimentalId,5, page,pageSize);
                 break;
             }
@@ -256,7 +252,10 @@ public class OrderController {
         for(OrderGroup orderGroup : orderGroups.getContent()){
             List<OrderInfo> orderInfos = orderInfoFacade.listOrderInfoByOrderGroupId(orderGroup.getId());
             Map<String,Object> order = new HashMap<>();
-            order.put("orderGroup",orderGroup);
+            Map<String,Object> orderGroupInfo = MapUtil.beanToMap(orderGroup);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            orderGroupInfo.put("createData",sdf.format(orderGroup.getCreateData()));
+            order.put("orderGroup",orderGroupInfo);
             order.put("orderInfoList",orderInfos);
             orderList.add(order);
         }
