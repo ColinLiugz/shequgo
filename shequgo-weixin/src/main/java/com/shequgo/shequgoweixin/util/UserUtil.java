@@ -1,6 +1,8 @@
 package com.shequgo.shequgoweixin.util;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import entity.User;
+import facade.UserFacade;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -11,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: 2019/3/25 22:42
  */
 public class UserUtil {
+    @Reference(version = "1.0.0")
+    private UserFacade userFacade;
+
+    public User getUser(Integer userId){
+        return userFacade.findById(userId);
+    }
 
     public static User getCurrentUser(){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

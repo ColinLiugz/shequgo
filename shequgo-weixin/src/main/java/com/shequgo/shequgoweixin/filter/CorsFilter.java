@@ -1,6 +1,7 @@
 package com.shequgo.shequgoweixin.filter;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.shequgo.shequgoweixin.util.UserUtil;
 import entity.User;
 import facade.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,7 @@ import java.io.IOException;
 public class CorsFilter implements Filter {
     @Autowired
     private RedisService redisService;
-    @Reference(version = "1.0.0")
-    private UserFacade  userFacade;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println(">>>>>>>>>>>>filter init<<<<<<<<<<<<");
@@ -52,7 +52,7 @@ public class CorsFilter implements Filter {
                 return;
             }else {
                 User user = (User)redisService.get(authorization);
-                user = userFacade.findById(user.getId());
+                user = new UserUtil().getUser(user.getId());
                 redisService.set(authorization,user);
                 request.setAttribute("currentUser",user);
             }

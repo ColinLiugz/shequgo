@@ -30,7 +30,7 @@ public interface SkuRepo extends JpaRepository<Sku,Integer> {
     @Query("select s from Sku s where s.categoryId=?1 and s.surplusAmount > 0 and s.isGroupBuying=0  and s.isDel=0 and s.isShow =1 order by s.id desc")
     Page<Sku> listOrdinarySkuByCategoryId(Integer categoryId, Pageable pageable);
 
-    @Query("select s from Sku s where s.isGroupBuying=0  and s.isDel=0 and s.isShow =1 order by s.id desc")
+    @Query("select s from Sku s where s.isGroupBuying=0 and s.surplusAmount > 0 and s.isDel=0 and s.isShow =1 order by s.id desc")
     Page<Sku> listOrdinarySku(Pageable pageable);
 
     @Query("select s from Sku s where s.isGroupBuying=1  and s.isDel=0 and s.isShow =1 order by s.id desc")
