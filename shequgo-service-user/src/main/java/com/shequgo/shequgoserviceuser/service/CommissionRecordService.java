@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 /**
  * @Author: Colin
  * @Date: 2019/3/28 21:34
@@ -27,5 +29,10 @@ public class CommissionRecordService extends BaseService<CommissionRecord,Commis
     public PageModel<CommissionRecord> listCommissionRecord(Integer userId, Integer page, Integer pageSize){
         Page<CommissionRecord> commissionRecords = repo.listCommissionRecord(userId, PageRequest.of(page-1,pageSize));
         return new PageModel<CommissionRecord>(commissionRecords.getTotalElements(),commissionRecords.getContent());
+    }
+
+    @Override
+    public BigDecimal sumComByMonth(Integer userId, String date){
+        return repo.sumComByMonth(userId,date);
     }
 }
