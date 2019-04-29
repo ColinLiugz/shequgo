@@ -92,7 +92,7 @@ public class OrderController {
         if(orderGroup == null){
             return ApiResult.error("不存在的订单");
         }else {
-            orderGroup.setLogisticsType(status);
+            orderGroup.setLogisticsStatus(status);
             orderGroupFacade.save(orderGroup);
             return ApiResult.ok(orderGroup);
         }

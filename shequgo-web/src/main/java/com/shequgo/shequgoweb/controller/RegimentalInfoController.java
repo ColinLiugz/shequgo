@@ -56,8 +56,11 @@ public class RegimentalInfoController {
     public ApiResult listCommission(String date,Integer page,Integer pageSize){
         PageModel<RegimentalInfo> regimentalInfoPage = regimentalInfoFacade.listByStatus(1, page, pageSize);
         List<Map> regimentalList = new ArrayList<>();
-        regimentalInfoPage.getContent().forEach(regimentalInfo -> {
+        regimentalInfoPage.getContent().forEach((RegimentalInfo regimentalInfo) -> {
             BigDecimal count = commisionRecordFacade.sumComByMonth(regimentalInfo.getUserId(),date);
+            if(count == null){
+                count = new BigDecimal(0);
+            }
             Map<String,Object> regimentalMap = MapUtil.beanToMap(regimentalInfo);
             regimentalMap.put("countCommission",count);
             regimentalList.add(regimentalMap);
