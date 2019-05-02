@@ -53,6 +53,11 @@ public class CorsFilter implements Filter {
                 return;
             }else {
                 Admin admin = (Admin)redisService.get(authorization);
+                if(null == admin){
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/web/notLogin");
+                    requestDispatcher.forward(request, response);
+                    return;
+                }
                 request.setAttribute("currentUser",admin);
             }
         }
@@ -65,7 +70,7 @@ public class CorsFilter implements Filter {
     }
 
     private boolean isNeedCheckAuth(String uri){
-        String[] notNeeds = {"/web/login","/web/send/checkCode/login"};
+        String[] notNeeds = {"/web/login","/web/send/checkCode/login","web/admin/init"};
         if(uri.startsWith("/web/")){
             for(String notNeedUri : notNeeds){
                 if(notNeedUri.equals(uri)){

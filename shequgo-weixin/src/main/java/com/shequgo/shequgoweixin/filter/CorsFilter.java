@@ -52,6 +52,11 @@ public class CorsFilter implements Filter {
                 return;
             }else {
                 User user = (User)redisService.get(authorization);
+                if(null == user){
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/weixin/notLogin");
+                    requestDispatcher.forward(request, response);
+                    return;
+                }
                 request.setAttribute("currentUser",user);
             }
         }
