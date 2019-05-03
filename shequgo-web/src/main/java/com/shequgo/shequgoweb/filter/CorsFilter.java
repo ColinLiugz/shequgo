@@ -70,7 +70,7 @@ public class CorsFilter implements Filter {
     }
 
     private boolean isNeedCheckAuth(String uri){
-        String[] notNeeds = {"/web/login","/web/send/checkCode/login","web/admin/init"};
+        String[] notNeeds = {"/web/login","/web/send/checkCode/login","/web/admin/init"};
         if(uri.startsWith("/web/")){
             for(String notNeedUri : notNeeds){
                 if(notNeedUri.equals(uri)){
