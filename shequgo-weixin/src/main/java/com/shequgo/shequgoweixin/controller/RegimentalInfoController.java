@@ -47,7 +47,7 @@ public class RegimentalInfoController {
         }
     }
 
-    @ApiOperation(value = "获得当前用户的团长信息")
+    @ApiOperation(value = "获得当前用户的团长信息(自己的团长信息)")
     @RequestMapping(value = "/regimentalInfo/get", method = RequestMethod.GET)
     public ApiResult getRegimentalInfo(){
         Integer userId = UserUtil.getCurrentUserId();
@@ -57,15 +57,16 @@ public class RegimentalInfoController {
 
     @ApiOperation(value = "申请成为团长")
     @RequestMapping(value = "/regimentalInfo/add", method = RequestMethod.POST)
-    public ApiResult addRegimentalInfo(String realName,String phone,String address,String location){
+    public ApiResult addRegimentalInfo(String realName,String shopName,String phone,String address,String location){
         Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
-        if(null != regimentalInfo){
+        if(null != regimentalInfo && regimentalInfo.getStatus() == 1){
             return ApiResult.error("已经是团长，不能重复申请！");
         }
         regimentalInfo = new RegimentalInfo();
         regimentalInfo.setUserId(userId);
         regimentalInfo.setRealName(realName);
+        regimentalInfo.setShopName(shopName);
         regimentalInfo.setPhone(phone);
         regimentalInfo.setAddress(address);
         regimentalInfo.setLoccation(location);
@@ -77,13 +78,14 @@ public class RegimentalInfoController {
 
     @ApiOperation(value = "修改团长信息")
     @RequestMapping(value = "/regimentalInfo/update", method = RequestMethod.POST)
-    public ApiResult updateRegimentalInfo(String realName,String phone,String address,String location){
+    public ApiResult updateRegimentalInfo(String realName,String shopName,String phone,String address,String location){
         Integer userId = UserUtil.getCurrentUserId();
         RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         if(null == regimentalInfo){
             return ApiResult.error("还不是团长，请先申请！");
         }
         regimentalInfo.setRealName(realName);
+        regimentalInfo.setShopName(shopName);
         regimentalInfo.setPhone(phone);
         regimentalInfo.setAddress(address);
         regimentalInfo.setLoccation(location);

@@ -20,6 +20,11 @@ import java.math.BigDecimal;
 @EntityListeners(AuditingEntityListener.class)
 public class RegimentalInfo extends BaseObject implements Comparable<RegimentalInfo>{
     private Integer userId;
+    /**
+     * 店铺名称
+     */
+    @Column(length = 5000)
+    private String shopName;
     private String realName;
     private String phone;
     private String address;
