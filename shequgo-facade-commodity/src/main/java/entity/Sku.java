@@ -32,6 +32,7 @@ public class Sku extends BaseObject{
      * 缩略图
      */
     private String thumbnail;
+    @Column(length = 5000)
     private String richText;
     /**
      * 价格
