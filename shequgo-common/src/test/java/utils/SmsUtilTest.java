@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
  */
 public class SmsUtilTest {
     public static final void  main(String[] args){
-        System.out.println(SmsUtil.sendCheckCode("17853146473"));
+        System.out.println(SmsUtil.sendNotice("17853146464"));
     }
 
 }

@@ -34,7 +34,7 @@ public class ActiveMQConfig {
     }
     @Bean
     public ActiveMQConnectionFactory connectionFactory() {
-        return new ActiveMQConnectionFactory("admin", "admin", "tcp://localhost:61616");
+        return new ActiveMQConnectionFactory("admin", "admin", "tcp://39.107.87.92:61616");
     }
     @Bean
     public JmsListenerContainerFactory<?> jmsListenerContainerTopic(ActiveMQConnectionFactory connectionFactory) {

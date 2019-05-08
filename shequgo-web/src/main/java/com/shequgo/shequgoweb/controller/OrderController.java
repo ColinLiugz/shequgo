@@ -3,16 +3,15 @@ package com.shequgo.shequgoweb.controller;
 import entity.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.shequgo.shequgoweb.filter.UserUtil;
-import facade.OrderGroupFacade;
-import facade.OrderInfoFacade;
-import facade.RegimentalInfoFacade;
-import facade.UserFacade;
+import facade.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import utils.ActiveMQUtils;
 import utils.ApiResult;
 
 import java.util.*;
@@ -34,6 +33,10 @@ public class OrderController {
     private UserFacade userFacade;
     @Reference(version = "1.0.0")
     private RegimentalInfoFacade regimentalInfoFacade;
+    @Autowired
+    private ActiveMQUtils activeMQUtils;
+    @Reference(version = "1.0.0")
+    private ReceiveAddressFacade receiveAddressFacade;
 
     @ApiOperation(value = "查看订单列表  logisticsStatus: 1全部 2未支付 3待发货 4待收货 5已签收")
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
@@ -94,6 +97,8 @@ public class OrderController {
         }else {
             orderGroup.setLogisticsStatus(status);
             orderGroupFacade.save(orderGroup);
+            ReceiveAddress receiveAddress = receiveAddressFacade.findDefault(orderGroup.getUserId());
+            activeMQUtils.sendMessage("sms_notice",receiveAddress.getReceivePhone());
             return ApiResult.ok(orderGroup);
         }
     }

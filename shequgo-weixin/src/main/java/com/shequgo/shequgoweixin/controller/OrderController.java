@@ -7,10 +7,12 @@ import entity.*;
 import facade.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import utils.ActiveMQUtils;
 import utils.ApiResult;
 import utils.MapUtil;
 
@@ -28,6 +30,8 @@ import java.util.*;
 @CrossOrigin
 @RequestMapping(value = "/weixin")
 public class OrderController {
+    @Autowired
+    private ActiveMQUtils activeMQUtils;
     @Reference(version = "1.0.0")
     private OrderInfoFacade orderInfoFacade;
     @Reference(version = "1.0.0")
@@ -269,13 +273,14 @@ public class OrderController {
     @RequestMapping(value = "/ordinaryOrder/regimental/update", method = RequestMethod.POST)
     public ApiResult listOrderByRegimental(Integer orderGroupId,Integer status){
         Integer userId = UserUtil.getCurrentUserId();
-        RegimentalInfo regimentalInfo = regimentalInfoFacade.findByUserId(userId);
         OrderGroup orderGroup = orderGroupFacade.findById(orderGroupId);
         if(orderGroup == null){
             return ApiResult.error("不存在的订单");
         }else {
-            orderGroup.setLogisticsType(status);
+            orderGroup.setLogisticsStatus(status);
             orderGroupFacade.save(orderGroup);
+            ReceiveAddress receiveAddress = receiveAddressFacade.findDefault(orderGroup.getUserId());
+            activeMQUtils.sendMessage("sms_notice",receiveAddress.getReceivePhone());
             return ApiResult.ok(orderGroup);
         }
     }
@@ -288,8 +293,10 @@ public class OrderController {
         if(orderGroup == null){
             return ApiResult.error("不存在的订单");
         }else {
-            orderGroup.setLogisticsType(5);
+            orderGroup.setLogisticsStatus(5);
             orderGroupFacade.save(orderGroup);
+            ReceiveAddress receiveAddress = receiveAddressFacade.findDefault(orderGroup.getUserId());
+            activeMQUtils.sendMessage("sms_notice",receiveAddress.getReceivePhone());
             return ApiResult.ok(orderGroup);
         }
     }
