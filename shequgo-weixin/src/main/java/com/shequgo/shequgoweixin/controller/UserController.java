@@ -7,6 +7,7 @@ import facade.IntegralRecordFacade;
 import facade.UserFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +37,12 @@ public class UserController {
     @Reference(version = "1.0.0")
     private IntegralRecordFacade integralRecordFacade;
 
+    private static Logger log = Logger.getLogger(UserController.class);
+
     @ApiOperation(value = "用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String weixinCode,String encryptedData, String iv){
+        log.info(new Date());
         User user = userFacade.getUserInfoByCode(weixinCode,encryptedData,iv);
         String date = new Date().toString();
         String userTab = "xiaochengxu" + user.getId() + user.getOpenid() + date;
