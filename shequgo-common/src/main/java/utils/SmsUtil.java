@@ -25,9 +25,6 @@ public class SmsUtil {
     private static String SIGN_NAME = "社区购";
 
     public static String sendCheckCode(String phone){
-        if(true){
-            return "000000";
-        }
         String checkCode = generateCheckCode();
         DefaultProfile profile = DefaultProfile.getProfile(REGION_ID, ACCESS_KEY_ID, ACCESS_SECRET);
         IAcsClient client = new DefaultAcsClient(profile);

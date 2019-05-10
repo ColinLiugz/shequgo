@@ -42,7 +42,6 @@ public class UserController {
     @ApiOperation(value = "用户登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResult userLogin(String weixinCode,String encryptedData, String iv){
-        log.info(new Date());
         User user = userFacade.getUserInfoByCode(weixinCode,encryptedData,iv);
         String date = new Date().toString();
         String userTab = "xiaochengxu" + user.getId() + user.getOpenid() + date;
